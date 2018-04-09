@@ -7,7 +7,8 @@ This is an SDStore based project designed for the collection of data over a RFM6
 
 1. Create a python 3 environment using your favorite virtual environment manager.
 2. Install the requirements using ```pip install -r requirements.txt```
-3. Run ```python manage.py runserver``` to run locally
+3. Run ```export LOCAL=1``` to tell Dajngo that it is running locally
+4. Run ```python manage.py runserver``` to run
 
 ## Install remotely on Raspberry Pi
 
