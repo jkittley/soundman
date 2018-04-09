@@ -17,8 +17,11 @@ bool DEBUG = true;
 // Node and network config
 #define NODEID        3    // The ID of this node (must be different for every node on network)
 #define NETWORKID     100  // The network ID
-#define GATEWAYID     1    // Where to send data
+#define GATEWAYID     1    // Where to send sensor data
+#define CONFIGID      101  // Where to send config data
 int TRANSMITPERIOD  = 5000; // Transmission interval in ms e.g. 5000 = every 5 seconds 
+int CONFIGPERIOD    = 15000; // Time can be in config mode without ack
+int dest = GATEWAYID;
 
 #define NUM_RETRYS    3    // How many times to retry sending a message
 #define RETRY_WAIT    500  // How long to wait for Acknoledgement
@@ -87,6 +90,7 @@ int TRANSMITPERIOD  = 5000; // Transmission interval in ms e.g. 5000 = every 5 s
 int mode = MODE_NORMAL;
 int modeButtonPin = 5;
 int modeLedPin = LED_BUILTIN;
+unsigned long modeTimer = 0;
 
 //===================================================
 // Setup
@@ -116,6 +120,9 @@ void setup() {
 
 void loop() {
 
+  // Revert to normal if no acks from alternative
+  autoRevertModeManager();
+  
   // Check for mode button press
   checkModeButton();
   indicateModeStatus();
@@ -160,11 +167,19 @@ void indicateModeStatus() {
 
 // Check if mode button has been pressed
 void checkModeButton() {
-  // read the state of the pushbutton value:
   bool buttonState = digitalRead(modeButtonPin);
    if (buttonState == HIGH) {
       mode = MODE_CONFIG;
+      dest = CONFIGID;
+      modeTimer = millis(); 
   } 
+}
+
+void autoRevertModeManager() {
+  if (modeTimer < millis() - CONFIGPERIOD) {
+    mode = MODE_NORMAL;
+    dest = GATEWAYID;
+  }
 }
 
 //===================================================
@@ -263,8 +278,9 @@ void sendReading() {
   Serial.println(")");
   
   // Send payload
-  if (radio.sendWithRetry(GATEWAYID, (const void*) &payload, sizeof(payload), NUM_RETRYS, RETRY_WAIT)) {
+  if (radio.sendWithRetry(dest, (const void*) &payload, sizeof(payload), NUM_RETRYS, RETRY_WAIT)) {
     Serial.println(" Acknoledgment received!");
+    modeTimer = millis();
     Blink(100, 1);
   } else {
     Serial.println(" No Acknoledgment after retries");
