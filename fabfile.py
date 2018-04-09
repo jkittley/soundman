@@ -101,6 +101,7 @@ def setup_website():
     restart_db_services()
     # Django Tasks
     django_migrate()
+    sdstore_optimise_db()
     django_collect_static()
     # Background services
     setup_rfm69radio_service()
@@ -208,7 +209,7 @@ def sync_files():
     rsync_project(   
         remote_dir=Settings.DIR_CODE,
         local_dir=Settings.LOCAL_DIR_CODE,
-        exclude=("fabfile.py","*.pyc",".git","*.db", "*.log", "*.csv" '__pychache__', '*.md','*.DS_Store'),
+        exclude=("fabfile.py","*.pyc",".git","*.db","*.sqlite3", "*.log", "*.csv" '__pychache__', '*.md','*.DS_Store'),
         extra_opts="--filter 'protect *.csv' --filter 'protect *.json' --filter 'protect *.db'",
         delete=True
     )
@@ -419,4 +420,6 @@ def restart_rfm69radio_service():
     sudo('systemctl daemon-reload')
     sudo('systemctl restart rfm69')
 
-    
+@task
+def sdstore_optimise_db():
+    mysql.query("USE {} ALTER TABLE sd_store_sensorreading ADD KEY ix1(sensor_id, channel_id, timestamp, id, value);".format(Settings.DB_NAME))
