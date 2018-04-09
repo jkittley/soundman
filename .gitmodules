@@ -1,0 +1,6 @@
+[submodule "sd_store"]
+	path = sd_store
+	url = https://jkittley@bitbucket.org/ecostanza/sd_store.git
+[submodule "basicutils"]
+	path = basicutils
+	url = https://jkittley@bitbucket.org/ecostanza/basicutils
