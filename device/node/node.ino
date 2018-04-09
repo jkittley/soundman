@@ -10,6 +10,7 @@
 #include <SPI.h>                // Included with Arduino IDE
 #include <ArduinoJson.h>        // https://arduinojson.org/d
 //#include <Adafruit_SleepyDog.h> // https://github.com/adafruit/Adafruit_SleepyDog
+#include <I2S.h>
 
 // Debug mode
 bool DEBUG = true;
@@ -92,6 +93,9 @@ int modeButtonPin = 5;
 int modeLedPin = LED_BUILTIN;
 unsigned long modeTimer = 0;
 
+// Mic
+#define SAMPLES 128
+
 //===================================================
 // Setup
 //===================================================
@@ -110,7 +114,14 @@ void setup() {
   #ifdef ENCRYPTKEY
     radio.encrypt(ENCRYPTKEY);
   #endif
+
+  // Microphone - start I2S at 16 kHz with 32-bits per sample
+  if (!I2S.begin(I2S_PHILIPS_MODE, 16000, 32)) {
+    Serial.println("Failed to initialize I2S!");
+    while (1); // do nothing
+  }
   
+  // Debug
   if (DEBUG) printDebugInfo();
 }
 
@@ -186,6 +197,13 @@ void autoRevertModeManager() {
 // Listen form server messages after sending a msg
 //===================================================
 
+// Define struct for update payload
+typedef struct {
+  char key[20]; // command
+  int value; // Battery voltage
+} Update;
+Update upd;
+
 // 
 void listenForMessages() { 
   unsigned long waitfor = 500;
@@ -201,31 +219,29 @@ void listenForMessages() {
         Serial.print("Data length: "); Serial.println(radio.DATALEN);
         Serial.print("[RX_RSSI:"); Serial.print(radio.RSSI); Serial.println("]");
       }
-      
-      String message = "";
-      for (byte i = 0; i < radio.DATALEN; i++) { 
-        message += (char)radio.DATA[i]; 
-      }
-      if (radio.ACKRequested()) { radio.sendACK(); }
 
-      String key = getValue(message, "-", 0);
-    
-      if (key == "normal") {
-          mode = MODE_NORMAL;
-          
-      } else if (key == "config") {
-           mode = MODE_CONFIG;
-           
-      } else if (key == "interval") {
-          TRANSMITPERIOD = getValue(message, "-", 1).toInt();
-          
-      } else if (key == "show") {
-          Blink(500, 2);
-          Blink(100, 10);
-          Blink(500, 2);
-          Blink(100, 10);
-          Blink(500, 2);
-          
+      if (radio.DATALEN != sizeof(Update)) {
+        if (DEBUG) Serial.print("# Invalid update received, not matching Payload struct. -- ");
+      } else {    
+        upd = *(Update*)radio.DATA; //assume radio.DATA actually contains our struct and not something else
+        if (radio.ACKRequested()) { radio.sendACK(); }
+      
+        if (upd.key == "normal") {
+            mode = MODE_NORMAL;
+            
+        } else if (upd.key == "config") {
+             mode = MODE_CONFIG;
+             
+        } else if (upd.key == "interval") {
+            TRANSMITPERIOD = upd.value;
+            
+        } else if (upd.key == "show") {
+            Blink(500, 2);
+            Blink(100, 10);
+            Blink(500, 2);
+            Blink(100, 10);
+            Blink(500, 2);
+        }
       }
     }
   }  
@@ -239,42 +255,24 @@ void listenForMessages() {
 
 // Define payload
 typedef struct {
-  char command[20]; // command
   int battery; // Battery voltage
-  int volume;   // Volume
-  int rssi;     // RSSI as seen by node
+  int volume;  // Volume
 } Payload;
 Payload payload;
 
 // sendReading
 void sendReading() {
-  
-  // Set payload command
-  String("none").toCharArray(payload.command, sizeof(payload.command));
 
-  // Battery Level
-  float measuredvbat = analogRead(VBATPIN);
-  measuredvbat *= 2;    // we divided by 2, so multiply back
-  measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
-  measuredvbat /= 1024; // convert to voltage
-  payload.battery = 100 * measuredvbat;
+  // Battery Level - multiplied by 100 to get precision as int, must be divided by 100 on the other end (hacky but works)
+  payload.battery = (int) 100 * getBatteryLevel();
 
-  // RSSI
-  payload.rssi    = 0;
-
-  // Volume
-  payload.volume  = random(0,450)/10; 
+  // Volume 
+  payload.volume  = (int) 100 * getSoundPressure(); 
   
   // Print payload
-  Serial.print("Sending payload (");
-  Serial.print(sizeof(payload));
-  Serial.print(" bytes)");
-  Serial.print(" battery=");
-  Serial.print(payload.battery);
-  Serial.print(" signal=");
-  Serial.print(payload.rssi);
-  Serial.print(" volume=");
-  Serial.print(payload.volume);
+  Serial.print("Sending payload ("); Serial.print(sizeof(payload)); Serial.print(" bytes)");
+  Serial.print(" battery="); Serial.print(payload.battery);
+  Serial.print(" volume="); Serial.print(payload.volume);
   Serial.println(")");
   
   // Send payload
@@ -377,4 +375,58 @@ String getValue(String data, char separator, int index) {
   return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
 
+//===================================================
+// Sensor Sound Level
+//===================================================
 
+float getSoundPressure() {
+  // read a bunch of samples:
+  int samples[SAMPLES];
+ 
+  for (int i=0; i<SAMPLES; i++) {
+    int sample = 0; 
+    while ((sample == 0) || (sample == -1) ) {
+      sample = I2S.read();
+    }
+    // convert to 18 bit signed
+    sample >>= 14; 
+    samples[i] = sample;
+  }
+ 
+  // ok we hvae the samples, get the mean (avg)
+  float meanval = 0;
+  for (int i=0; i<SAMPLES; i++) {
+    meanval += samples[i];
+  }
+  meanval /= SAMPLES;
+  //Serial.print("# average: " ); Serial.println(meanval);
+ 
+  // subtract it from all sapmles to get a 'normalized' output
+  for (int i=0; i<SAMPLES; i++) {
+    samples[i] -= meanval;
+    //Serial.println(samples[i]);
+  }
+ 
+  // find the 'peak to peak' max
+  float maxsample, minsample;
+  minsample = 100000;
+  maxsample = -100000;
+  for (int i=0; i<SAMPLES; i++) {
+    minsample = min(minsample, samples[i]);
+    maxsample = max(maxsample, samples[i]);
+  }
+  
+  return maxsample - minsample;
+}
+
+//===================================================
+// Sensor Battery Level
+//===================================================
+
+float getBatteryLevel() {
+  float measuredvbat = analogRead(VBATPIN);
+  measuredvbat *= 2;    // we divided by 2, so multiply back
+  measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
+  measuredvbat /= 1024; // convert to voltage
+  return 100 * measuredvbat;
+}
