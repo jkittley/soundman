@@ -15,6 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+LOCAL = "LOCAL" in os.environ is not None and bool(os.environ.get('LOCAL', False))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -25,7 +26,10 @@ SECRET_KEY = 'c=*3yms-!n5ps53eyb6%%y4jz*tex1n9sipd4r5js1r!e09vrv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ 'raspberrypi.local' ]
+if LOCAL:
+    ALLOWED_HOSTS = [ '*' ]
+else:
+    ALLOWED_HOSTS = [ 'raspberrypi.local' ]
 
 LOGIN_URL = '/admin/login'
 
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sd_store',
+    'frontend'
 ]
 
 MIDDLEWARE = [
@@ -75,21 +80,22 @@ WSGI_APPLICATION = 'soundman.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pidatabase',
-        'USER': 'sdstore',
-        'PASSWORD': 'secret-password',
+if LOCAL:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'pidatabase',
+            'USER': 'sdstore',
+            'PASSWORD': 'secret-password',
+        }
+    }
 
 
 # Password validation

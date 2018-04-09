@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^sdstore/', include('sd_store.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^', include('frontend.urls')),
 ]
