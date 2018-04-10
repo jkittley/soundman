@@ -9,7 +9,7 @@
 #include <RFM69_ATC.h>          // https://www.github.com/lowpowerlab/rfm69
 #include <SPI.h>                // Included with Arduino IDE
 #include <ArduinoJson.h>        // https://arduinojson.org/d
-//#include <Adafruit_SleepyDog.h> // https://github.com/adafruit/Adafruit_SleepyDog
+#include <Adafruit_SleepyDog.h> // https://github.com/adafruit/Adafruit_SleepyDog
 #include <I2S.h>
 
 // Debug mode
@@ -25,7 +25,7 @@ int CONFIGPERIOD    = 15000; // Time can be in config mode without ack
 int dest = GATEWAYID;
 
 #define NUM_RETRYS    3    // How many times to retry sending a message
-#define RETRY_WAIT    500  // How long to wait for Acknoledgement
+#define RETRY_WAIT    200  // How long to wait for Acknoledgement
 
 // Are you using the RFM69 Wing? Uncomment if you are.
 //#define USING_RFM69_WING 
@@ -40,7 +40,7 @@ int dest = GATEWAYID;
 #define IS_RFM69HW_HCW
 
 // Uncomment to enable auto transmission control - adjusts power to save battery
-#define ENABLE_ATC
+// #define ENABLE_ATC
 
 // Serial board rate - just used to print debug messages
 #define SERIAL_BAUD   115200
@@ -89,12 +89,14 @@ int dest = GATEWAYID;
 #define MODE_NORMAL 1
 #define MODE_CONFIG  2
 int mode = MODE_NORMAL;
-int modeButtonPin = 5;
-int modeLedPin = LED_BUILTIN;
+int modeButtonPin = A1;
+int modeLedPin = 11;
 unsigned long modeTimer = 0;
 
 // Mic
-#define SAMPLES 128
+#define SAMPLES 2048
+#define ADC_SOUND_REF 65
+#define DB_SOUND_REF 41
 
 //===================================================
 // Setup
@@ -102,6 +104,11 @@ unsigned long modeTimer = 0;
 
 void setup() {
   Serial.begin(SERIAL_BAUD);
+  
+  if (DEBUG) { while (!Serial) { ; } }
+  
+  pinMode(modeLedPin, OUTPUT);
+  pinMode(modeButtonPin, INPUT_PULLUP); 
 
   // Reset the radio
   resetRadio();
@@ -114,12 +121,6 @@ void setup() {
   #ifdef ENCRYPTKEY
     radio.encrypt(ENCRYPTKEY);
   #endif
-
-  // Microphone - start I2S at 16 kHz with 32-bits per sample
-  if (!I2S.begin(I2S_PHILIPS_MODE, 16000, 32)) {
-    Serial.println("Failed to initialize I2S!");
-    while (1); // do nothing
-  }
   
   // Debug
   if (DEBUG) printDebugInfo();
@@ -131,6 +132,10 @@ void setup() {
 
 void loop() {
 
+  if (DEBUG) {
+    Serial.print("Mode: "); Serial.println(mode);
+  }
+  
   // Revert to normal if no acks from alternative
   autoRevertModeManager();
   
@@ -154,13 +159,11 @@ void loop() {
 
 void sleepTime() {
   if (mode == MODE_NORMAL) {
-    //  delay(1000);
     if (DEBUG) Serial.println("Going to sleep");
     //radio.sleep();
-    //Watchdog.sleep(TRANSMITPERIOD);
-    delay(TRANSMITPERIOD);
+    Watchdog.sleep(TRANSMITPERIOD);
   } else {
-    delay(200);
+    Watchdog.sleep(200);
   }
 }
 
@@ -178,18 +181,21 @@ void indicateModeStatus() {
 
 // Check if mode button has been pressed
 void checkModeButton() {
-  bool buttonState = digitalRead(modeButtonPin);
-   if (buttonState == HIGH) {
+   if (digitalRead(modeButtonPin) == LOW) {
       mode = MODE_CONFIG;
       dest = CONFIGID;
       modeTimer = millis(); 
+      if (DEBUG) Serial.println("Mode button pressed");
   } 
 }
 
 void autoRevertModeManager() {
-  if (modeTimer < millis() - CONFIGPERIOD) {
-    mode = MODE_NORMAL;
-    dest = GATEWAYID;
+  if (mode == MODE_CONFIG) {
+    if (millis() - modeTimer > CONFIGPERIOD) {
+      if (DEBUG) Serial.println("Auto reverting as timed out");
+      mode = MODE_NORMAL;
+      dest = GATEWAYID;
+    }
   }
 }
 
@@ -200,7 +206,7 @@ void autoRevertModeManager() {
 // Define struct for update payload
 typedef struct {
   char key[20]; // command
-  int value; // Battery voltage
+  uint8_t value; // Battery voltage
 } Update;
 Update upd;
 
@@ -221,9 +227,15 @@ void listenForMessages() {
       }
 
       if (radio.DATALEN != sizeof(Update)) {
-        if (DEBUG) Serial.print("# Invalid update received, not matching Payload struct. -- ");
+        if (DEBUG) Serial.print("# Invalid update received, not matching Upload struct. -- ");
       } else {    
         upd = *(Update*)radio.DATA; //assume radio.DATA actually contains our struct and not something else
+
+        if (DEBUG) { 
+          Serial.print('Key: '); Serial.println(upd.key); 
+          Serial.print('Val: '); Serial.println(upd.value);
+        }
+        
         if (radio.ACKRequested()) { radio.sendACK(); }
       
         if (upd.key == "normal") {
@@ -255,38 +267,38 @@ void listenForMessages() {
 
 // Define payload
 typedef struct {
-  int battery; // Battery voltage
-  int volume;  // Volume
+  uint8_t battery; // Battery voltage
+  uint8_t volume;  // Volume
 } Payload;
 Payload payload;
 
 // sendReading
 void sendReading() {
 
+  if (DEBUG) Serial.println("Getting readings");
+  
   // Battery Level - multiplied by 100 to get precision as int, must be divided by 100 on the other end (hacky but works)
   payload.battery = (int) 100 * getBatteryLevel();
 
   // Volume 
-  payload.volume  = (int) 100 * getSoundPressure(); 
+  payload.volume  = 12; //(int) 100 * getSoundPressure(); 
   
   // Print payload
-  Serial.print("Sending payload ("); Serial.print(sizeof(payload)); Serial.print(" bytes)");
-  Serial.print(" battery="); Serial.print(payload.battery);
-  Serial.print(" volume="); Serial.print(payload.volume);
-  Serial.println(")");
-  
-  // Send payload
-  if (radio.sendWithRetry(dest, (const void*) &payload, sizeof(payload), NUM_RETRYS, RETRY_WAIT)) {
-    Serial.println(" Acknoledgment received!");
-    modeTimer = millis();
-    Blink(100, 1);
-  } else {
-    Serial.println(" No Acknoledgment after retries");
-    Blink(500, 1);
+  if (DEBUG) {
+    Serial.print("Sending payload ("); Serial.print(sizeof(payload)); Serial.print(" bytes) to node: "); Serial.println(dest);
+    Serial.print(" - Battery="); Serial.print(payload.battery);
+    Serial.print(" - Volume="); Serial.print(payload.volume);
+    Serial.println(")");
   }
-  Serial.println(" Done");
-  //Watchdog.sleep(500);
-  delay(500);
+  // Send payload
+  if (radio.sendWithRetry(dest, (const void*) &payload, sizeof(payload), 3, 100)) {
+    modeTimer = millis();
+    if (DEBUG) Serial.println(" Acknoledgment received!");
+  } else {
+    if (DEBUG) Serial.println(" No Acknoledgment after retries");
+  }
+  //Watchdog.sleep(2000);
+  //delay(500);
 }
 
 //===================================================
@@ -294,11 +306,10 @@ void sendReading() {
 //===================================================
 
 void Blink(int delayms, int numberTimes) {
-  pinMode(LED, OUTPUT);
   for (int x=0; x < numberTimes; x++) {
-    digitalWrite(LED, HIGH);
+    digitalWrite(modeLedPin, HIGH);
     delay(delayms);
-    digitalWrite(LED, LOW);
+    digitalWrite(modeLedPin, LOW);
     delay(delayms);
   }
 }
@@ -379,44 +390,79 @@ String getValue(String data, char separator, int index) {
 // Sensor Sound Level
 //===================================================
 
+bool initMicrophone() {
+  if (!I2S.begin(I2S_PHILIPS_MODE, 16000, 32)) {
+      if (DEBUG) Serial.println("Failed to initialize I2S!");
+      return false;
+  }
+  return true;
+}
+
 float getSoundPressure() {
-  // read a bunch of samples:
-  int samples[SAMPLES];
- 
-  for (int i=0; i<SAMPLES; i++) {
-    int sample = 0; 
-    while ((sample == 0) || (sample == -1) ) {
-      sample = I2S.read();
+  
+  if (DEBUG) Serial.println("Getting audio level");
+  
+  // init
+  if (!initMicrophone()) {
+      if (DEBUG) Serial.println("Failed to initialize I2S!");
+      return -999;
+  }
+
+  delay(500);
+
+  unsigned long endSampleMillis  = millis() + 500;
+
+  int sample;
+  float maxsample = 0;
+  float meansample = -1;
+  
+  if (DEBUG) Serial.println("Starting sample");
+  while (endSampleMillis > millis()) {
+    Serial.print(endSampleMillis); Serial.print(" - "); Serial.println(millis());
+    sample = I2S.read();
+    if (sample) {
+      sample >>= 14; 
+      if (sample > maxsample) maxsample = sample;
+      if (meansample == -1) {
+        meansample = sample;
+      } else {
+        meansample += sample;
+        meansample = meansample / 2;
+      }
     }
-    // convert to 18 bit signed
-    sample >>= 14; 
-    samples[i] = sample;
-  }
- 
-  // ok we hvae the samples, get the mean (avg)
-  float meanval = 0;
-  for (int i=0; i<SAMPLES; i++) {
-    meanval += samples[i];
-  }
-  meanval /= SAMPLES;
-  //Serial.print("# average: " ); Serial.println(meanval);
- 
-  // subtract it from all sapmles to get a 'normalized' output
-  for (int i=0; i<SAMPLES; i++) {
-    samples[i] -= meanval;
-    //Serial.println(samples[i]);
-  }
- 
-  // find the 'peak to peak' max
-  float maxsample, minsample;
-  minsample = 100000;
-  maxsample = -100000;
-  for (int i=0; i<SAMPLES; i++) {
-    minsample = min(minsample, samples[i]);
-    maxsample = max(maxsample, samples[i]);
   }
   
-  return maxsample - minsample;
+  I2S.end();
+
+  return maxsample;
+
+  return (float) 20 * log10((float)maxsample / (float)ADC_SOUND_REF) + DB_SOUND_REF;
+
+
+//  if (DEBUG) Serial.println("Samples collected");
+//
+//  // ok we have the samples, get the mean (avg)
+//  float meanval = 0;
+//  for (int i=0; i<SAMPLES; i++) {
+//    meanval += samples[i];
+//  }
+//  meanval /= SAMPLES;
+//  
+//  // subtract it from all samples to get a 'normalized' output
+//  for (int i=0; i<SAMPLES; i++) {
+//    samples[i] -= meanval;
+//  }
+//
+//  // find the 'peak to peak' max
+//  float maxsample, minsample;
+//  minsample = 100000;
+//  maxsample = -100000;
+//  for (int i=0; i<SAMPLES; i++) {
+//    minsample = min(minsample, samples[i]);
+//    maxsample = max(maxsample, samples[i]);
+//  }
+//  
+//  
 }
 
 //===================================================
@@ -424,6 +470,7 @@ float getSoundPressure() {
 //===================================================
 
 float getBatteryLevel() {
+  if (DEBUG) Serial.println("Getting battery voltage");
   float measuredvbat = analogRead(VBATPIN);
   measuredvbat *= 2;    // we divided by 2, so multiply back
   measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage

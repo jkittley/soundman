@@ -3,9 +3,6 @@ from RFM69Radio import Radio, FREQ_433MHZ
 import asyncio
 from aiohttp import ClientSession, BasicAuth
 
-
-
-
 async def call_API(session, packet):
     # post single data point to the newly created channel
     sensor_id = 3
