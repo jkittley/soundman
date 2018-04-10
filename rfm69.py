@@ -24,7 +24,7 @@ def process_packet(packet):
     print('1 sample posted, result:', r.text)
 
 def listen_to_radio():
-    with Radio(FREQ_433MHZ, 1, encryptionKey="sampleEncryptKey") as radio:
+    with Radio(FREQ_433MHZ, 1, encryptionKey="sampleEncryptKey", useHighPower=True) as radio:
         while True:
             for packet in radio.getPackets():
                 print("Packet received", packet.to_dict())
