@@ -43,7 +43,7 @@ class Settings:
         DIR_CODE + 'requirements.txt',
         DIR_CODE + 'sd_store/requirements.txt'
     ]
-    APP_ENTRY_POINT = "sdstore-demo.wsgi"   # You will need to change the sdstore-demo part to match the name of the django project you created.
+    APP_ENTRY_POINT = "soundman.wsgi"   # You will need to change the sdstore-demo part to match the name of the django project you created.
     # Database
     DB_NAME      = "pidatabase"             # Database name to create
     DB_USER_NAME = "sdstore"                # Database username to create
