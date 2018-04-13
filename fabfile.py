@@ -26,7 +26,7 @@ from unipath import Path, DIRS
 class Settings:
     DEPLOY_USER = "pi"                      # Username of owner
     DEPLOY_GRP = "www-data"                 # Usergroup for webservices
-    ROOT_NAME = "sdstore-demo"              # A system friendly name for the project
+    ROOT_NAME = "soundman"              # A system friendly name for the project
     DIR_PROJ = "/srv/" + ROOT_NAME + "/"    # The root of this project folder
     DIR_CODE = DIR_PROJ + 'src/'            # Where the website source for this project will live
     DIR_LOGS = DIR_PROJ + 'logs/'           # Where the log files for this project will live
