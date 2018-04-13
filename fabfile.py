@@ -160,6 +160,7 @@ def update_server():
     print_title('Updating server')
     sudo('apt-get update -y')
     sudo('apt-get upgrade -y')
+    sudo('apt-get update -y')
 
 def install_os_packages():
     print_title('Installing OS packages')
