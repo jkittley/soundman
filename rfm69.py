@@ -24,7 +24,7 @@ def process_packet(packet):
 
 
 print ("Starting")
-with Radio(FREQ_433MHZ, 1, isHighPower=True, verbose=True) as radio:
+with Radio(FREQ_433MHZ, 1, isHighPower=True, verbose=False) as radio:
 
     while True:
 
