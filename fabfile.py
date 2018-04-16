@@ -26,7 +26,7 @@ from unipath import Path, DIRS
 class Settings:
     DEPLOY_USER = "pi"                      # Username of owner
     DEPLOY_GRP = "www-data"                 # Usergroup for webservices
-    ROOT_NAME = "soundman"              # A system friendly name for the project
+    ROOT_NAME = "sdstore-demo"              # A system friendly name for the project
     DIR_PROJ = "/srv/" + ROOT_NAME + "/"    # The root of this project folder
     DIR_CODE = DIR_PROJ + 'src/'            # Where the website source for this project will live
     DIR_LOGS = DIR_PROJ + 'logs/'           # Where the log files for this project will live
@@ -40,7 +40,7 @@ class Settings:
     PYVMM     = ".".join([str(x) for x in PYVERSION[:2]])
     # Requirements
     REQUIRMENTS_FILES = [
-        DIR_CODE + 'requirements.txt',
+        DIR_CODE + 'requirements_remote.txt',
         DIR_CODE + 'sd_store/requirements.txt'
     ]
     APP_ENTRY_POINT = "soundman.wsgi"   # You will need to change the sdstore-demo part to match the name of the django project you created.
@@ -70,12 +70,12 @@ def add_ssh_key(path=None):
 @task
 def redeploy():
     sync_files()
-    set_permissions()
-    install_venv_requirements()
-    django_migrate()
-    django_collect_static()
+    # set_permissions()
+    # install_venv_requirements()
+    # django_migrate()
+    # django_collect_static()
     restart_web_services()
-    restart_rfm69radio_service()
+    # restart_rfm69radio_service()
 
 @task
 def install_webserver():
