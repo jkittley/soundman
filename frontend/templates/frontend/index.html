@@ -1,0 +1,30 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<h3>Latest data</h3>
+
+<ul id="data-list">
+
+</ul>
+
+<script>
+
+    var getLastReading = function(sensor_id, channel_name) {
+        $.getJSON( "/sdstore/sensor/"+sensor_id+"/"+channel_name+"/last-reading/", function( reading ) {
+            $('#'+sensor_id + ' .' + channel_name + ' span').html(reading.value + ' (' + reading.timestamp + ')' );
+        });
+    }
+
+    $.getJSON( "/sdstore/sensors/", function( sensors ) {
+        console.log(sensors);        
+        $.each( sensors, function( i, sensor ) {
+            var sensorli = $( "<li id='" + sensor.id + "'>" + sensor.name + "<ul></ul></li>" ).appendTo( "#data-list" );
+            $.each( sensor.channels, function( j, channel ) {
+                var elem_id = "reading-" + sensor.id + "-" + channel.name;
+                sensorli.find('ul').append(
+                    $( "<li class='" + channel.name + "'>" + channel.name + " <span></span></li>" )
+                );
+                getLastReading(sensor.id, channel.name)
+            });
+        });
+    });
+</script>
