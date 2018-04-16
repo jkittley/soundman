@@ -17,7 +17,7 @@ def process_packet(packet):
     for key, value in dict(volume=packet.data[0], battery=packet.data[1], RSSI=packet.RSSI).items(): 
 
         post_data = { "data":  json.dumps([dict(timestamp=ts, value=value)]) }
-        data_url  = sd_store_url + 'sdstore/sensor/%d/%s/data/' % (1, key)
+        data_url  = sd_store_url + 'sdstore/sensor/sensor_{}/{}/data/'.format(packet.sender, key)
 
         r = session.post(data_url, post_data)
         print(r.text)
