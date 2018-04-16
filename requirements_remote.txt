@@ -1,0 +1,4 @@
+Django==1.11
+termcolor==1.1.0
+Unipath==1.1
+rpi-rfm69
