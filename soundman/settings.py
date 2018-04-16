@@ -31,7 +31,7 @@ if LOCAL:
     DEBUG = True
 else:
     ALLOWED_HOSTS = [ 'raspberrypi.local' ]
-    DEBUG = False
+    DEBUG = True
 
 LOGIN_URL = '/admin/login'
 
