@@ -9,9 +9,9 @@ Weather you are want to run this project locally or deploy to a Raspberry Pi the
 1. Create a python 3 environment on your local machine using your favourite virtual environment manager e.g. using Anaconda, and activate it: 
 
 ```
-conda create --name soundman
+conda create --name soundsystem-server
 
-source activate soundman
+source activate soundsystem-server
 ```
 
 3. Clone this repository and open the folder.
@@ -26,7 +26,7 @@ cd soundsystem-server
 4. Install the required Python packages:
 
 ```
-pip install -r requirements.txt
+pip install -r requirements_local.txt
 ```
 
 ## Run locally
@@ -50,6 +50,8 @@ The following commands below will no doubt work on other versions of linux based
 ```
 fab install_webserver -H raspberrypi.local
 ``` 
+**Note:** If you get an error like this: "Fatal error: Host key for raspberrypi.local did not match pre-existing key!". You may need to remove a previously registered SSH key for the domain raspberrypi.local. Do do this run: `ssh-keygen -R raspberrypi.local`.
+
 2. Now we need to upload the website for the first time.
 ```
 fab setup_website -H raspberrypi.local
