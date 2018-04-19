@@ -95,7 +95,7 @@ def setup_website():
     setup_nginx()
     setup_gunicorn()
     restart_web_services()
-    Database & Requirements
+    # Database & Requirements
     setup_mysql()
     restart_db_services()
     # Django Tasks
@@ -104,7 +104,6 @@ def setup_website():
     django_collect_static()
     # Background services
     setup_rfm69radio_service()
-
 
 # =============================================================================
 # SUB TASKS
