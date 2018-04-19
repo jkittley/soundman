@@ -2,3 +2,10 @@ Django==1.11
 termcolor==1.1.0
 Unipath==1.1
 rpi-rfm69
+
+Pillow==4.2.1
+nose==1.3.7
+simplejson==3.10.0
+django-nose==1.4.5
+xxtea==0.2.1
+numpy==1.9.3
