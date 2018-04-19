@@ -1,0 +1,79 @@
+[
+  {
+    "pk": 1,
+    "model": "sd_store.studyinfo",
+    "fields": {
+      "baseline_consumption": 4.0,
+      "last_modified": "2012-07-01 18:24:14",
+      "user": 2,
+      "initial_credit": 50.0,
+      "start_date": "2012-06-10 00:00:00"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "sd_store.studyinfo",
+    "fields": {
+      "baseline_consumption": 4.0,
+      "last_modified": "2012-07-01 18:24:14",
+      "user": 3,
+      "initial_credit": 50.0,
+      "start_date": "2012-06-10 00:00:00"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "sd_store.studyinfo",
+    "fields": {
+      "baseline_consumption": 4.0,
+      "last_modified": "2012-07-01 18:24:14",
+      "user": 4,
+      "initial_credit": 50.0,
+      "start_date": "2012-06-10 00:00:00"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "sd_store.studyinfo",
+    "fields": {
+      "baseline_consumption": 4.0,
+      "last_modified": "2012-07-01 18:24:14",
+      "user": 5,
+      "initial_credit": 50.0,
+      "start_date": "2012-06-10 00:00:00"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "sd_store.studyinfo",
+    "fields": {
+      "baseline_consumption": 4.0,
+      "last_modified": "2012-07-01 18:24:14",
+      "user": 6,
+      "initial_credit": 50.0,
+      "start_date": "2012-06-10 00:00:00"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "sd_store.studyinfo",
+    "fields": {
+      "baseline_consumption": 4.0,
+      "last_modified": "2012-07-01 18:24:14",
+      "user": 7,
+      "initial_credit": 50.0,
+      "start_date": "2012-06-10 00:00:00"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "sd_store.studyinfo",
+    "fields": {
+      "baseline_consumption": 4.0,
+      "last_modified": "2012-07-01 18:24:14",
+      "user": 8,
+      "initial_credit": 50.0,
+      "start_date": "2012-06-10 00:00:00"
+    }
+  }
+]

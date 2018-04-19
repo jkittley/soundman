@@ -1,0 +1,245 @@
+[
+  {
+    "pk": 1,
+    "model": "auth.user",
+    "fields": {
+      "username": "superuser",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": true,
+      "is_staff": true,
+      "last_login": "2012-07-01 18:24:14",
+      "groups": [],
+      "user_permissions": [],
+      "password": "sha1$31dd6$4346a82ef9525e1fe00ec04ebf40af6f4a7c9617",
+      "email": "",
+      "date_joined": "2012-07-01 18:24:14"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "auth.user",
+    "fields": {
+      "username": "acr@ecs.soton.ac.uk",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2012-07-01 18:24:14",
+      "groups": [
+        4
+      ],
+      "user_permissions": [],
+      "password": "sha1$dda33$392dc81150673589fe3c1007ac19c4af78bdbe8b",
+      "email": "acr@ecs.soton.ac.uk",
+      "date_joined": "2012-07-01 18:24:14"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "auth.user",
+    "fields": {
+      "username": "e.costanza@ieee.org",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2012-07-01 18:24:14",
+      "groups": [
+        2,
+        5
+      ],
+      "user_permissions": [],
+      "password": "sha1$e1a31$0da37301fdb7be1ecd3de7d1b781a276d983f39a",
+      "email": "e.costanza@ieee.org",
+      "date_joined": "2012-07-01 18:24:14"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "auth.user",
+    "fields": {
+      "username": "op106@soton.ac.uk",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2012-07-01 18:24:14",
+      "groups": [
+        1,
+        6
+      ],
+      "user_permissions": [],
+      "password": "sha1$59ff0$89c92d857b5b6e738172007b7ad905df98a0d60c",
+      "email": "op106@soton.ac.uk",
+      "date_joined": "2012-07-01 18:24:14"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "auth.user",
+    "fields": {
+      "username": "ecenergy28@ecs.soton.ac.uk",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2012-07-01 18:24:14",
+      "groups": [
+        3,
+        7
+      ],
+      "user_permissions": [],
+      "password": "sha1$22dfa$7fa6c5ad37ccc716f45d718300149755139f8dc9",
+      "email": "ecenergy28@ecs.soton.ac.uk",
+      "date_joined": "2012-07-01 18:24:14"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "auth.user",
+    "fields": {
+      "username": "ecenergy32@ecs.soton.ac.uk",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2012-07-01 18:24:14",
+      "groups": [
+        2,
+        8
+      ],
+      "user_permissions": [],
+      "password": "sha1$0669b$616767d0ab4ad30563c57bc77e21a4c3ba90eecc",
+      "email": "ecenergy32@ecs.soton.ac.uk",
+      "date_joined": "2012-07-01 18:24:14"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "auth.user",
+    "fields": {
+      "username": "ecenergy33@ecs.soton.ac.uk",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2012-07-01 18:24:14",
+      "groups": [
+        1,
+        9
+      ],
+      "user_permissions": [],
+      "password": "sha1$cb0e9$ad426a8d187287c1cbd5926d4ec037185ff2f4ce",
+      "email": "ecenergy33@ecs.soton.ac.uk",
+      "date_joined": "2012-07-01 18:24:14"
+    }
+  },
+  {
+    "pk": 8,
+    "model": "auth.user",
+    "fields": {
+      "username": "ecenergy36@ecs.soton.ac.uk",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2012-07-01 18:24:14",
+      "groups": [
+        10
+      ],
+      "user_permissions": [],
+      "password": "sha1$3213e$34f4292443b3d321279dede31e81a4379e0b957f",
+      "email": "ecenergy36@ecs.soton.ac.uk",
+      "date_joined": "2012-07-01 18:24:14"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "auth.group",
+    "fields": {
+      "name": "price_priority",
+      "permissions": []
+    }
+  },
+  {
+    "pk": 2,
+    "model": "auth.group",
+    "fields": {
+      "name": "time_priority",
+      "permissions": []
+    }
+  },
+  {
+    "pk": 3,
+    "model": "auth.group",
+    "fields": {
+      "name": "control",
+      "permissions": []
+    }
+  },
+  {
+    "pk": 4,
+    "model": "auth.group",
+    "fields": {
+      "name": "2",
+      "permissions": []
+    }
+  },
+  {
+    "pk": 5,
+    "model": "auth.group",
+    "fields": {
+      "name": "3",
+      "permissions": []
+    }
+  },
+  {
+    "pk": 6,
+    "model": "auth.group",
+    "fields": {
+      "name": "4",
+      "permissions": []
+    }
+  },
+  {
+    "pk": 7,
+    "model": "auth.group",
+    "fields": {
+      "name": "5",
+      "permissions": []
+    }
+  },
+  {
+    "pk": 8,
+    "model": "auth.group",
+    "fields": {
+      "name": "6",
+      "permissions": []
+    }
+  },
+  {
+    "pk": 9,
+    "model": "auth.group",
+    "fields": {
+      "name": "7",
+      "permissions": []
+    }
+  },
+  {
+    "pk": 10,
+    "model": "auth.group",
+    "fields": {
+      "name": "8",
+      "permissions": []
+    }
+  }
+]

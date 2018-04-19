@@ -1,0 +1,982 @@
+[
+    {
+        "pk": 10005,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:20:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0001252000000064868
+        }
+    },
+    {
+        "pk": 10006,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:22:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.03921499999999867
+        }
+    },
+    {
+        "pk": 10007,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:24:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.05366449999999645
+        }
+    },
+    {
+        "pk": 10008,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:26:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.03610390000000052
+        }
+    },
+    {
+        "pk": 10009,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:28:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004420500000001937
+        }
+    },
+    {
+        "pk": 10010,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:30:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004489999999996996
+        }
+    },
+    {
+        "pk": 10011,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:32:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0043739000000044825
+        }
+    },
+    {
+        "pk": 10012,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:34:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004505599999994558
+        }
+    },
+    {
+        "pk": 10013,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:36:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0041166000000032454
+        }
+    },
+    {
+        "pk": 10014,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:38:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004176100000002236
+        }
+    },
+    {
+        "pk": 10015,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:40:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0025702999999950293
+        }
+    },
+    {
+        "pk": 10016,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:42:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.005018400000004419
+        }
+    },
+    {
+        "pk": 10017,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:44:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0033732999999998015
+        }
+    },
+    {
+        "pk": 10018,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:46:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0028268999999951916
+        }
+    },
+    {
+        "pk": 10019,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:48:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.005165300000001594
+        }
+    },
+    {
+        "pk": 10020,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:50:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0023245000000002847
+        }
+    },
+    {
+        "pk": 10021,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:52:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.008081300000000624
+        }
+    },
+    {
+        "pk": 10022,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 17:54:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.00027140000000258624
+        }
+    },
+    {
+        "pk": 10023,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:06:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0002958999999975731
+        }
+    },
+    {
+        "pk": 10024,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:08:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0020057999999991694
+        }
+    },
+    {
+        "pk": 10025,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:10:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.02989780000000053
+        }
+    },
+    {
+        "pk": 10026,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:12:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0674125000000032
+        }
+    },
+    {
+        "pk": 10027,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:14:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.039810799999997926
+        }
+    },
+    {
+        "pk": 10028,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:16:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.05307200000000023
+        }
+    },
+    {
+        "pk": 10029,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:18:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.06672189999999745
+        }
+    },
+    {
+        "pk": 10030,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:20:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.06679830000000209
+        }
+    },
+    {
+        "pk": 10031,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:22:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.06689000000000078
+        }
+    },
+    {
+        "pk": 10032,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:24:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.06669980000000209
+        }
+    },
+    {
+        "pk": 10033,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:26:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.06676329999999808
+        }
+    },
+    {
+        "pk": 10034,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:28:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.02892219999999668
+        }
+    },
+    {
+        "pk": 10035,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:30:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.00316970000000083
+        }
+    },
+    {
+        "pk": 10036,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:32:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.06392610000000332
+        }
+    },
+    {
+        "pk": 10037,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:34:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.06707480000000032
+        }
+    },
+    {
+        "pk": 10038,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:36:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.06688049999999635
+        }
+    },
+    {
+        "pk": 10039,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:38:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.06627809999999812
+        }
+    },
+    {
+        "pk": 10040,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:40:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.06662050000000619
+        }
+    },
+    {
+        "pk": 10041,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:42:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.05087089999999961
+        }
+    },
+    {
+        "pk": 10042,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:44:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0040113999999960015
+        }
+    },
+    {
+        "pk": 10043,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:46:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004348600000000147
+        }
+    },
+    {
+        "pk": 10044,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:48:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004032500000000994
+        }
+    },
+    {
+        "pk": 10045,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:50:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0037266000000002464
+        }
+    },
+    {
+        "pk": 10046,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:52:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0037342000000037956
+        }
+    },
+    {
+        "pk": 10047,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:54:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0032057999999963727
+        }
+    },
+    {
+        "pk": 10048,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:56:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004051099999998087
+        }
+    },
+    {
+        "pk": 10049,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 22:58:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004021399999999176
+        }
+    },
+    {
+        "pk": 10050,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:00:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0031273000000027196
+        }
+    },
+    {
+        "pk": 10051,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:02:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004586600000003216
+        }
+    },
+    {
+        "pk": 10052,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:04:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004013600000000395
+        }
+    },
+    {
+        "pk": 10053,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:06:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.003726399999997909
+        }
+    },
+    {
+        "pk": 10054,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:08:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0017130999999963592
+        }
+    },
+    {
+        "pk": 10055,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:10:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0036728000000039174
+        }
+    },
+    {
+        "pk": 10056,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:12:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.003335799999995004
+        }
+    },
+    {
+        "pk": 10057,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:14:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.003998600000002739
+        }
+    },
+    {
+        "pk": 10058,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:16:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004215799999997216
+        }
+    },
+    {
+        "pk": 10059,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:18:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0041298000000011825
+        }
+    },
+    {
+        "pk": 10060,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:20:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004193300000004285
+        }
+    },
+    {
+        "pk": 10061,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:22:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004419699999999693
+        }
+    },
+    {
+        "pk": 10062,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:24:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004411099999998669
+        }
+    },
+    {
+        "pk": 10063,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:26:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004450900000001923
+        }
+    },
+    {
+        "pk": 10064,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:28:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004502199999997458
+        }
+    },
+    {
+        "pk": 10065,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:30:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0030338999999983685
+        }
+    },
+    {
+        "pk": 10066,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:32:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.003006900000002588
+        }
+    },
+    {
+        "pk": 10067,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:34:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0030355999999969185
+        }
+    },
+    {
+        "pk": 10068,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:36:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0030460999999988303
+        }
+    },
+    {
+        "pk": 10069,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:38:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.00306940000000111
+        }
+    },
+    {
+        "pk": 10070,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:40:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0031475000000042996
+        }
+    },
+    {
+        "pk": 10071,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:42:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0031091999999972586
+        }
+    },
+    {
+        "pk": 10072,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:44:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.00309610000000049
+        }
+    },
+    {
+        "pk": 10073,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:46:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.003102200000000721
+        }
+    },
+    {
+        "pk": 10074,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:48:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.003105900000001327
+        }
+    },
+    {
+        "pk": 10075,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:50:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0030776999999986288
+        }
+    },
+    {
+        "pk": 10076,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:52:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0030260999999995875
+        }
+    },
+    {
+        "pk": 10077,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:54:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0030828000000013844
+        }
+    },
+    {
+        "pk": 10078,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:56:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.001733600000001445
+        }
+    },
+    {
+        "pk": 10079,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-06-30 23:58:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0015681000000000722
+        }
+    },
+    {
+        "pk": 10080,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:00:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.002050799999999242
+        }
+    },
+    {
+        "pk": 10081,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:02:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.002878099999996664
+        }
+    },
+    {
+        "pk": 10082,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:04:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0031672000000000367
+        }
+    },
+    {
+        "pk": 10083,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:06:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.003230600000001971
+        }
+    },
+    {
+        "pk": 10084,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:08:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.00400189999999867
+        }
+    },
+    {
+        "pk": 10085,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:10:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004899700000002838
+        }
+    },
+    {
+        "pk": 10086,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:12:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0024630999999999403
+        }
+    },
+    {
+        "pk": 10087,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:14:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0059757999999945355
+        }
+    },
+    {
+        "pk": 10088,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:16:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.002567500000004941
+        }
+    },
+    {
+        "pk": 10089,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:18:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.008714499999996406
+        }
+    },
+    {
+        "pk": 10090,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:20:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0036094000000019832
+        }
+    },
+    {
+        "pk": 10091,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:22:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.003210600000002728
+        }
+    },
+    {
+        "pk": 10092,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 00:24:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.001317699999994204
+        }
+    },
+    {
+        "pk": 10093,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 08:52:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0012139000000033207
+        }
+    },
+    {
+        "pk": 10094,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 08:54:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004506700000000308
+        }
+    },
+    {
+        "pk": 10095,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 08:56:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.004592999999999847
+        }
+    },
+    {
+        "pk": 10096,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 08:58:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0037086999999971226
+        }
+    },
+    {
+        "pk": 10097,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 09:00:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.002739099999999439
+        }
+    },
+    {
+        "pk": 10098,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 09:02:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0028081000000028666
+        }
+    },
+    {
+        "pk": 10099,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 09:04:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.009170500000003301
+        }
+    },
+    {
+        "pk": 10100,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 09:06:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.010299799999998527
+        }
+    },
+    {
+        "pk": 10101,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 09:08:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.005482700000001728
+        }
+    },
+    {
+        "pk": 10102,
+        "model": "sd_store.sensorreading",
+        "fields": {
+            "timestamp": "2012-07-01 09:10:00",
+            "sensor": 8,
+            "channel": 3,
+            "value": 0.0003869999999963625
+        }
+    }
+]

@@ -1,0 +1,461 @@
+[
+    {
+        "pk": 1,
+        "model": "sd_store.channel",
+        "fields": {
+            "unit": "W",
+            "name": "power",
+            "reading_frequency": 120
+        }
+    },
+    {
+        "pk": 2,
+        "model": "sd_store.channel",
+        "fields": {
+            "unit": "C",
+            "name": "temperature",
+            "reading_frequency": 120
+        }
+    },
+    {
+        "pk": 3,
+        "model": "sd_store.channel",
+        "fields": {
+            "unit": "kWh",
+            "name": "energy",
+            "reading_frequency": 120
+        }
+    },
+    {
+        "pk": 1,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                1,
+                2,
+                3
+            ],
+            "sensor_type": "MeterReader",
+            "mac": "00-0D-6F-00-00-1D-61-0F",
+            "user": 2,
+            "name": "Meter Reader "
+        }
+    },
+    {
+        "pk": 2,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                1,
+                3
+            ],
+            "sensor_type": "SmartPlug",
+            "mac": "00-0D-6F-00-01-A7-F6-DB",
+            "user": 2,
+            "name": "Washing machine"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                2
+            ],
+            "sensor_type": "Button",
+            "mac": "00-0D-6F-00-00-1D-67-BE",
+            "user": 3,
+            "name": "Button 1"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                2
+            ],
+            "sensor_type": "Button",
+            "mac": "00-0D-6F-00-01-0D-4D-57",
+            "user": 3,
+            "name": "Button 2"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                1,
+                3
+            ],
+            "sensor_type": "SmartPlug",
+            "mac": "00-0D-6F-00-01-A6-67-38",
+            "user": 3,
+            "name": "Dishwasher"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                1,
+                3
+            ],
+            "sensor_type": "SmartPlug",
+            "mac": "00-0D-6F-00-01-A6-72-89",
+            "user": 3,
+            "name": "Fridge"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                1,
+                2,
+                3
+            ],
+            "sensor_type": "MeterReader",
+            "mac": "00-0D-6F-00-00-77-F3-14",
+            "user": 3,
+            "name": "Meter Reader "
+        }
+    },
+    {
+        "pk": 8,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                1,
+                3
+            ],
+            "sensor_type": "SmartPlug",
+            "mac": "00-0D-6F-00-01-72-F8-7F",
+            "user": 3,
+            "name": "Washing Machine"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                1,
+                2,
+                3
+            ],
+            "sensor_type": "MeterReader",
+            "mac": "00-0D-6F-00-01-0D-41-5B",
+            "user": 5,
+            "name": "energy28"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                1,
+                2,
+                3
+            ],
+            "sensor_type": "MeterReader",
+            "mac": "00-0D-6F-00-01-0D-4B-99",
+            "user": 6,
+            "name": "energy32"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                1,
+                2,
+                3
+            ],
+            "sensor_type": "MeterReader",
+            "mac": "00-0D-6F-00-01-0D-42-5D",
+            "user": 7,
+            "name": "energy33"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "sd_store.sensor",
+        "fields": {
+            "channels": [
+                1,
+                2,
+                3
+            ],
+            "sensor_type": "MeterReader",
+            "mac": "00-0D-6F-00-01-0D-41-F3",
+            "user": 8,
+            "name": "energy36"
+        }
+    },
+  {
+    "pk": 1, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/computer_13.png", 
+      "name": "computer", 
+      "icon": "event_icons/computer_12.png"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/dishwasher_13.png", 
+      "name": "dishwasher", 
+      "icon": "event_icons/dishwasher_12.png"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/fan_13.png", 
+      "name": "fan", 
+      "icon": "event_icons/fan_12.png"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/generic_13.png", 
+      "name": "generic", 
+      "icon": "event_icons/generic_12.png"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/hairdrier_13.png", 
+      "name": "hairdrier", 
+      "icon": "event_icons/hairdrier_12.png"
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/kettle_13.png", 
+      "name": "kettle", 
+      "icon": "event_icons/kettle_12.png"
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/microwave_13.png", 
+      "name": "microwave", 
+      "icon": "event_icons/microwave_12.png"
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/oven_13.png", 
+      "name": "oven", 
+      "icon": "event_icons/oven_12.png"
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/question_mark_13.png", 
+      "name": "question mark", 
+      "icon": "event_icons/question_mark_12.png"
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/shower_13.png", 
+      "name": "shower", 
+      "icon": "event_icons/shower_12.png"
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/stove_13.png", 
+      "name": "stove", 
+      "icon": "event_icons/stove_12.png"
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/toaster_13.png", 
+      "name": "toaster", 
+      "icon": "event_icons/toaster_12.png"
+    }
+  }, 
+  {
+    "pk": 13, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/tv_13.png", 
+      "name": "tv", 
+      "icon": "event_icons/tv_12.png"
+    }
+  }, 
+  {
+    "pk": 14, 
+    "model": "sd_store.eventtype", 
+    "fields": {
+      "alt_icon": "event_icons/washing_machine_13.png", 
+      "name": "washing machine", 
+      "icon": "event_icons/washing_machine_12.png"
+    }
+  },
+    
+    {
+        "pk": 1,
+        "model": "sd_store.userprofile",
+        "fields": {
+            "primary_sensor": 1,
+            "user": 2
+        }
+    },
+    {
+        "pk": 2,
+        "model": "sd_store.userprofile",
+        "fields": {
+            "primary_sensor": 7,
+            "user": 3
+        }
+    },
+    {
+        "pk": 3,
+        "model": "sd_store.userprofile",
+        "fields": {
+            "primary_sensor": null,
+            "user": 4
+        }
+    },
+    {
+        "pk": 4,
+        "model": "sd_store.userprofile",
+        "fields": {
+            "primary_sensor": 9,
+            "user": 5
+        }
+    },
+    {
+        "pk": 5,
+        "model": "sd_store.userprofile",
+        "fields": {
+            "primary_sensor": 10,
+            "user": 6
+        }
+    },
+    {
+        "pk": 6,
+        "model": "sd_store.userprofile",
+        "fields": {
+            "primary_sensor": 11,
+            "user": 7
+        }
+    },
+    {
+        "pk": 7,
+        "model": "sd_store.userprofile",
+        "fields": {
+            "primary_sensor": 12,
+            "user": 8
+        }
+    },
+    {
+        "pk": 1,
+        "model": "sd_store.studyinfo",
+        "fields": {
+            "baseline_consumption": 4.0,
+            "last_modified": "2012-07-02 07:44:40",
+            "user": 2,
+            "initial_credit": 50.0,
+            "start_date": "2012-06-10 00:00:00"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "sd_store.studyinfo",
+        "fields": {
+            "baseline_consumption": 4.0,
+            "last_modified": "2012-07-02 07:44:40",
+            "user": 3,
+            "initial_credit": 50.0,
+            "start_date": "2012-06-10 00:00:00"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "sd_store.studyinfo",
+        "fields": {
+            "baseline_consumption": 4.0,
+            "last_modified": "2012-07-02 07:44:40",
+            "user": 4,
+            "initial_credit": 50.0,
+            "start_date": "2012-06-10 00:00:00"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "sd_store.studyinfo",
+        "fields": {
+            "baseline_consumption": 4.0,
+            "last_modified": "2012-07-02 07:44:40",
+            "user": 5,
+            "initial_credit": 50.0,
+            "start_date": "2012-06-10 00:00:00"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "sd_store.studyinfo",
+        "fields": {
+            "baseline_consumption": 4.0,
+            "last_modified": "2012-07-02 07:44:40",
+            "user": 6,
+            "initial_credit": 50.0,
+            "start_date": "2012-06-10 00:00:00"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "sd_store.studyinfo",
+        "fields": {
+            "baseline_consumption": 4.0,
+            "last_modified": "2012-07-02 07:44:40",
+            "user": 7,
+            "initial_credit": 50.0,
+            "start_date": "2012-06-10 00:00:00"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "sd_store.studyinfo",
+        "fields": {
+            "baseline_consumption": 4.0,
+            "last_modified": "2012-07-02 07:44:40",
+            "user": 8,
+            "initial_credit": 50.0,
+            "start_date": "2012-06-10 00:00:00"
+        }
+    }
+]
