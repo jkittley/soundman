@@ -37,9 +37,14 @@ export LOCAL=1 & python manage.py runserver
 ```
 
 ## Deploy to a remote Raspberry Pi
-I am going to assume you have a PI connected to your local network with a hostname of "raspberrypi" and a clean install of Raspbian NOOBs. If you don't then visit RaspberryPi.org for more information. The commands below will no doubt work on other versions of linux based operating systems, however we have not tested them.
+I am going to assume you have:
 
-Keep an eye on the progress of the following commands and be sure to correct any errors as they occur. If you need help then please [add an issue](https://github.com/jkittley/soundsystem-server/issues).
+* A PI connected with a [clean install of Raspbian NOOBs](https://www.raspberrypi.org/documentation/installation/noobs.md)
+* That is is [connected to local network](https://www.raspberrypi.org/documentation/configuration/wireless/) 
+* Has the default hostname of "raspberrypi"
+* [SSH is enabled](https://www.raspberrypi.org/documentation/remote-access/ssh/)
+
+The following commands below will no doubt work on other versions of linux based operating systems, however we have not tested them. Also keep an eye on the progress of the following commands and be sure to correct any errors as they occur. If you need help then please [add an issue](https://github.com/jkittley/soundsystem-server/issues).
 
 1. The first command will turn your Raspberry Pi into a webserver.
 ```
