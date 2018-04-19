@@ -71,3 +71,10 @@ Once you have made changes to the code, you will need to redeploy them to the Ra
 ```
 fab redeploy -H raspberrypi.local
 ```
+
+## Add ssh key
+To save time you can add an SSH key to the PI using this command. Once executed you will no longer need to login!
+
+```
+fab add_ssh_key:/Users/username-here/.ssh/id_rsa.pub -H raspberrypi.local
+```
