@@ -198,7 +198,7 @@ def sensor_view(request, sensor_id=None):
 @access_required
 def channel_view_mac(request, sensor_mac=None, channel_name=None):
     s = get_object_or_404(Sensor, mac=sensor_mac)
-    return sensor_view(request, s.id, channel_name)
+    return channel_view(request, s.id, channel_name)
 
 
 @csrf_exempt
