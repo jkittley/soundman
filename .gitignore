@@ -1,5 +1,5 @@
-# ignore compiled scripts
 *.pyc
+*.sqlite3
 .DS_Store
 migrations/
 .vscode/
