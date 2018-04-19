@@ -37,22 +37,29 @@ export LOCAL=1 & python manage.py runserver
 ```
 
 ## Deploy to a remote Raspberry Pi
+I am going to assume you have a PI connected to your local network with a hostname of "raspberrypi" and a clean install of Raspbian NOOBs. If you don't then visit RaspberryPi.org for more information. The commands below will no doubt work on other versions of linux based operating systems, however we have not tested them.
+
+Keep an eye on the progress of the following commands and be sure to correct any errors as they occur. If you need help then please [add an issue](https://github.com/jkittley/soundsystem-server/issues).
 
 1. The first command will turn your Raspberry Pi into a webserver.
 ```
 fab install_webserver -H raspberrypi.local
 ``` 
-2. Now we need to upload the Soundman website for the first time.
+2. Now we need to upload the website for the first time.
 ```
 fab setup_website -H raspberrypi.local
 ``` 
-3. Next we need to create a Amin user so we can login and make changes.
+3. Next we need to create a Admin user so we can login and make changes.
 ```
 fab create_superuser -H raspberrypi.local
 ```
 
+## Making changes
+The project is based on [Django](https://www.djangoproject.com/) and [SD-Store](https://bitbucket.org/ecostanza/sd_store/src/master/README.md). To make modifications you first should verse yourself in how to manipulate Django based websites and how to interact with SD-Store.
+
 ## Deploy changes to remote Raspberry Pi
-If you make changes to the code and want to redeloy them to the Raspberry pi you can use the following command. It will copy accross the source files and reboot all the nessesary services automatically.
+Once you have made changes to the code, you will need to redeploy them to the Raspberry Pi server. The following command will copy across the source files and reboot all the necessary services automatically.
+
 ```
 fab redeploy -H raspberrypi.local
 ```
