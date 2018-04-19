@@ -43,6 +43,7 @@ I am going to assume you have:
 * That is is [connected to local network](https://www.raspberrypi.org/documentation/configuration/wireless/) 
 * Has the default hostname of "raspberrypi"
 * [SSH is enabled](https://www.raspberrypi.org/documentation/remote-access/ssh/)
+* **VERY IMPORTANT** You have [changed the default password](https://www.raspberrypi.org/documentation/linux/usage/users.md)
 
 The following commands below will no doubt work on other versions of linux based operating systems, however we have not tested them. Also keep an eye on the progress of the following commands and be sure to correct any errors as they occur. If you need help then please [add an issue](https://github.com/jkittley/soundsystem-server/issues).
 
