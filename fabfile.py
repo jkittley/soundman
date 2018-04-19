@@ -41,7 +41,6 @@ class Settings:
     # Requirements
     REQUIRMENTS_FILES = [
         DIR_CODE + 'requirements_remote.txt',
-        DIR_CODE + 'sd_store/requirements.txt'
     ]
     APP_ENTRY_POINT = "soundman.wsgi"   # You will need to change the sdstore-demo part to match the name of the django project you created.
     # Database
@@ -96,7 +95,7 @@ def setup_website():
     setup_nginx()
     setup_gunicorn()
     restart_web_services()
-    # Database & Requirements
+    Database & Requirements
     setup_mysql()
     restart_db_services()
     # Django Tasks
@@ -373,9 +372,13 @@ def create_superuser():
 # Sub Tasks - Django Specific
 # ----------------------------------------------------------------------------------------
 
+@task
 def django_migrate():
     print_title('Database migration')
     with virtualenv(Settings.DIR_VENV):
+        run('python {}manage.py makemigrations sd_store'.format(Settings.DIR_CODE))
+        run('python {}manage.py migrate sd_store'.format(Settings.DIR_CODE))
+
         run('python {}manage.py makemigrations'.format(Settings.DIR_CODE))
         run('python {}manage.py migrate'.format(Settings.DIR_CODE))
 
