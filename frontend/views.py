@@ -18,12 +18,11 @@ def index(request):
     by_time = {}
     readings = SensorReading.objects\
         .filter(sensor=form.cleaned_data['sensor'])\
-        .filter(timestamp__gte=form.cleaned_data['start'])\
-        .filter(timestamp__lte=form.cleaned_data['end'])\
-        .order_by("timestamp")
-    print(form.cleaned_data['start'], form.cleaned_data['end'])
-
-    for r in readings:
+        .order_by("-timestamp")
+        # .filter(timestamp__gte=form.cleaned_data['start'])\
+        # .filter(timestamp__lte=form.cleaned_data['end'])\
+   
+    for r in readings[:25]:
         key = datetime.strftime(r.timestamp, "%Y-%m-%d %H:%M:%S")
         if key not in by_time:
             by_time[key] = {}
