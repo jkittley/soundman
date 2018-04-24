@@ -1,21 +1,43 @@
 {% load static %}
 <html>
     <head>
+        <title>Sound System</title>
         <!-- Load c3.css -->
         <link href="{% static "frontend/bootstrap.min.css" %}" rel="stylesheet">
         <link href="{% static "frontend/c3.min.css" %}" rel="stylesheet">
+        <style>
+            body {
+                background-color:#f6f0ff;
+            }
+        </style>
         <!-- Load d3.js and c3.js -->
         <script src="{% static "frontend/d3.v4.min.js" %}" charset="utf-8"></script>
         <script src="{% static "frontend/c3.min.js" %}"></script>
         <script src="{% static "frontend/jquery-3.3.1.min.js" %}"></script>
         <script src="{% static "frontend/bootstrap.min.js" %}"></script>
         <script src="{% static "frontend/moment.js" %}"></script>
+        <script defer type="text/javascript"  src="{% static "frontend/fontawesome-all.min.js" %}"></script>
     </head>
+    <script>
+        // DO NOT CHANGE - This is used by the app to detect if the correct page has loaded and not an error e,g, Bad Gateway
+        window.appTag="defined";
+    </script>
     <body>
+        {% if is_device %}
+        <nav class="navbar navbar-dark justify-content-between mb-4" style="background-color: #ec68b9;">
+            <a class="navbar-brand" href="#close"><i class="fas fa-home"></i> &nbsp;&nbsp; <span id="serverTime">Fetching time...</span></a>
+            <form class="form-inline pb-0 mb-0">
+                <a class="btn btn-primary mr-2 mb-0" href="#" onclick="window.location.reload()"><i class="fas fa-sync"></i> Refresh</a>
+                <a class="btn btn-success mr-l mb-0" href="#close"><i class="fas fa-window-close"></i> Close</a>
+            </form>
+        </nav>
+        {% endif %}
+
         {% csrf_token %}
         <div class="container-fluid">
-
+            {% if not is_device %}
             <h1 class="display-4">Latest data</h1>
+            {% endif %}
             <div class="row">
                 <div id="plot-space" class="col-md-8"></div>
                 <div class="col-md-4">
@@ -27,7 +49,7 @@
         <script>
             var plots = {};
             var plotData={};
-
+          
             var getSensors = function(cb=null) {
                 $.getJSON( "/sdstore/sensors/", function( sensors ) {      
                 $.each( sensors, function( i, sensor ) {
@@ -211,6 +233,24 @@
             // Every 10 mins refresh the page to prevent cache issues with C3
             setInterval(window.location.reload, 10 * 60 * 1000);
 
+            // Update server time
+            var serverTime = null;
+            var getServerTime = function() {
+                $.getJSON('/server/time/', function(datetime) {
+                    serverTime = moment(datetime.ts);
+                });
+            };  
+            getServerTime();  
+            setInterval(getServerTime, 1000 * 60);
+            setInterval(function() {
+                $('#serverTime').html(serverTime.format('MMMM Do YYYY, h:mm:ss a'));
+                serverTime.add(1,'s');
+            }, 1000);
+                      
+            
+       
+          
+            
         </script>
     </body>
 </html>

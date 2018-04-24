@@ -25,12 +25,15 @@ SECRET_KEY = 'c=*3yms-!n5ps53eyb6%%y4jz*tex1n9sipd4r5js1r!e09vrv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
+SDSTORE_USER = "sensor"
+SDSTORE_PASS = "sdstoredevice"
+
 if LOCAL:
     print("--- LOCAL MODE ---")
     ALLOWED_HOSTS = [ '*' ]
     DEBUG = True
 else:
-    ALLOWED_HOSTS = [ 'raspberrypi.local' ]
+    ALLOWED_HOSTS = [ '*' ]
     DEBUG = True
 
 LOGIN_URL = '/admin/login'

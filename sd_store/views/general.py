@@ -714,7 +714,7 @@ def baseline_view(request, sensor_id=None, channel_name=None):
 
     start = max(start, data_start)
     end = min(end, data_end)
-    
+
     if channel.name in ('energy', 'power'):
         data_type = channel.name
     else:
