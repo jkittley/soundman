@@ -204,9 +204,13 @@
             });
             }
 
+            // Every 10 seconds refresh the data
             main();
             var timer = setInterval(main, 10 * 1000);
         
+            // Every 10 mins refresh the page to prevent cache issues with C3
+            setInterval(window.location.reload, 10 * 60 * 1000);
+
         </script>
     </body>
 </html>
