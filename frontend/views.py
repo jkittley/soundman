@@ -22,7 +22,8 @@ def index(request):
         # .filter(timestamp__gte=form.cleaned_data['start'])\
         # .filter(timestamp__lte=form.cleaned_data['end'])\
    
-    for r in readings[:25]:
+
+    for r in readings[:30]:
         key = datetime.strftime(r.timestamp, "%Y-%m-%d %H:%M:%S")
         if key not in by_time:
             by_time[key] = {}
