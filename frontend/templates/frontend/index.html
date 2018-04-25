@@ -1,7 +1,9 @@
 {% load static %}
-<html>
+<!doctype html>
+<html lang="en">
     <head>
         <title>Sound System</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <!-- Load c3.css -->
         <link href="{% static "frontend/bootstrap.min.css" %}" rel="stylesheet">
         <link href="{% static "frontend/c3.min.css" %}" rel="stylesheet">
@@ -23,24 +25,28 @@
         window.appTag="defined";
     </script>
     <body>
-        {% if is_device %}
-        <nav class="navbar navbar-dark justify-content-between mb-4" style="background-color: #ec68b9;">
-            <a class="navbar-brand" href="#close"><i class="fas fa-home"></i> &nbsp;&nbsp; <span id="serverTime">Fetching time...</span></a>
+       
+        <nav class="navbar fixed-top navbar-dark justify-content-between mb-4" style="background-color: #ec68b9;">
+            <a class="navbar-brand" href="#close">
+                {% if is_device %}
+                <i class="fas fa-home"></i> &nbsp;&nbsp; 
+                {% endif %}
+                <span id="serverDate" class="d-none d-sm-inline">...</span>
+                <span id="serverTime">, ...</span>
+            </a>
             <form class="form-inline pb-0 mb-0">
-                <a class="btn btn-primary mr-2 mb-0" href="#" onclick="window.location.reload()"><i class="fas fa-sync"></i> Refresh</a>
-                <a class="btn btn-success mr-l mb-0" href="#close"><i class="fas fa-window-close"></i> Close</a>
+                <a class="btn btn-primary mr-2 mb-0" href="#" onclick="window.location.reload()"><i class="fas fa-sync"></i><span class="d-none d-md-inline"> Refresh</span></a>
+                {% if is_device %}
+                <a class="btn btn-success mr-l mb-0" href="#close"><i class="fas fa-window-close"></i><span class="d-none d-md-inline"> Close </span></a>
+                {% endif %}
             </form>
         </nav>
-        {% endif %}
 
         {% csrf_token %}
         <div class="container-fluid">
-            {% if not is_device %}
-            <h1 class="display-4">Latest data</h1>
-            {% endif %}
             <div class="row">
-                <div id="plot-space" class="col-md-8"></div>
-                <div class="col-md-4">
+                <div id="plot-space" class="col-md-12 col-lg-7 col-xl-8"></div>
+                <div class="col-md-12 col-lg-5 col-xl-4">
                     <ul id="data-list" class="list-group"></ul>
                 </div>
             </div>
@@ -92,7 +98,7 @@
             };
 
             var createSensorListItem = function(sensor) {
-                var chlist = $("<ul>").addClass('');
+                var chlist = $("<ul>").addClass('pl-0');
                 $('<li>')
                     .prop('id', 'list-'+sensor.id)
                     .addClass('list-group-item')
@@ -140,7 +146,7 @@
             var createSensorPlot = function(sensor) {
                 
                 $('<div>').addClass("card").addClass("mb-4")
-                    .append('<div class="card-header" style="text-transform: capitalize;">'+sensor.name+'</div>')
+                    .append('<div class="card-header" style="text-transform: capitalize;">'+sensor.name + ' (' + sensor.mac + ')'+'</div>')
                     .append('<div class="card-body"><div id="plot-'+sensor.id+'"></div></div>')
                     .appendTo('#plot-space');
                 
@@ -159,9 +165,6 @@
                 
                 var settings = {
                     bindto: '#plot-'+sensor.id,
-                    title: {
-                        text: 'Sensor Node' + sensor.id + ' - ' + sensor.name
-                    },
                     data: {
                         x: 'ts',
                         xFormat: '%Y-%m-%d %H:%M:%S',
@@ -243,7 +246,8 @@
             getServerTime();  
             setInterval(getServerTime, 1000 * 60);
             setInterval(function() {
-                $('#serverTime').html(serverTime.format('MMMM Do YYYY, h:mm:ss a'));
+                $('#serverDate').html(serverTime.format('MMMM Do YYYY,'));
+                $('#serverTime').html(serverTime.format('h:mm:ss a'));
                 serverTime.add(1,'s');
             }, 1000);
                       
