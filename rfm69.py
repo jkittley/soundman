@@ -1,6 +1,6 @@
 import time
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from RFM69 import Radio, FREQ_433MHZ
 import requests
 
@@ -48,20 +48,20 @@ def save_reading(sensor_id, channel_id, ts, value):
         sd_store_url + 'sensor/{}/{}/data/'.format(sensor_id, channel_id), 
         { "data": json.dumps([dict(timestamp=ts, value=value)]) }
     )
-    # print(r.text)
+    print(r.text)
     return r.status_code == 200
 
 def process_packet(packet):
-    ts = packet.received.strftime('%a %b %d %H:%M:%S %Y')
+    #ts = packet.received.strftime('%a %b %d %H:%M:%S %Y')
     sensor_id = "sensor{}".format(packet.sender)
-
-    for key, value in dict(volume=packet.data[0], battery=packet.data[1], RSSI=packet.RSSI).items():         
-        
-        if not save_reading(sensor_id, key, ts, value):
-            if create_sensor(sensor_id):
-                create_channel(sensor_id, key)
-            else:
-                print ("Failed to create sensor")
+    for i in range(0,3):
+        for key, value in dict(volume=packet.data[i], battery=packet.data[3], RSSI=packet.RSSI).items():         
+            ts = packet.received + timedelta(seconds=i+1)
+            if not save_reading(sensor_id, key, ts.strftime('%a %b %d %H:%M:%S %Y'), value):
+                if create_sensor(sensor_id):
+                    create_channel(sensor_id, key)
+                else:
+                    print ("Failed to create sensor")
 
 
 print ("Starting")
