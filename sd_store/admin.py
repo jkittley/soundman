@@ -18,40 +18,29 @@
 from sd_store.models import SensorChannelPair, Annotation, StudyInfo, SensorReading, Event, Goal,\
     EventType, Channel, Sensor, UserProfile, RawDataKey, EepromSensorReading, Baseline, SensorGroup
 
-#import alertme
-
 from django.contrib import admin
 from datetime import datetime, timedelta
-#from django.contrib.auth.admin import UserAdmin
-#from django.contrib.auth.forms import UserCreationForm
-#from django.utils.translation import ugettext_lazy as _
-#from django import forms
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
-# class AlertMeUserAdminForm(forms.ModelForm):
-#    class Meta:
-#        model = AlertMeUser
-#    password = forms.CharField( help_text=_("Use '[algo]$[salt]$[hexdigest]' or use the <a href=\"password/\">change password form</a>."))
+# Export Resources - http://django-import-export.readthedocs.io/
+class SensorReadingResource(resources.ModelResource):
+    class Meta:
+        model = SensorReading
+
+class SensorResource(resources.ModelResource):
+    class Meta:
+        model = Sensor
+
+class ChannelResource(resources.ModelResource):
+    class Meta:
+        model = Channel
 
 
+# Model Admin
 class StudyInfoInline(admin.StackedInline):
     model = StudyInfo
     extra = 0
-
-# class AlertMeUserAdmin(UserAdmin):
-#
-#    fieldsets = [
-#        ('Essentials',          {'fields': ['username', 'password', 'alertme_password']}),
-#        (_('Groups'), {'fields': ('groups',)}),
-#        ('Name',                {'fields': ['first_name', 'last_name'], 'classes': ['collapse']}),
-#        ('AlertMe settings',    {'fields': ['user_level', 'web_version', 'registration_date', 'energy_price', 'status', 'access', 'settings', 'swingometer_shared'], 'classes': ['collapse']}),
-#        ('Preferences',            {'fields': ['language', 'currency', 'timezone', 'daylight_saving', 'temperature_format', 'date_format', 'time_format'], 'classes': ['collapse']}),
-#        ('Sharing',             {'fields': ['fe_sharing', 'fe_allowed_users', 'facebook_sharing', 'facebook_allowed_users'], 'classes': ['collapse']}),
-#    ]
-#
-#    inlines = [StudyInfoInline]
-#    form = AlertMeUserAdminForm
-#    list_display = ('username', 'recent_data', 'no_events', 'control_group', 'baseline_consumption', 'start_date', 'last_login')
-
 
 class RawDataKeyAdmin(admin.ModelAdmin):
     fields = ('value',)
@@ -62,7 +51,7 @@ class RawDataKeyInline(admin.TabularInline):
     extra = 1
 
 
-class SensorAdmin(admin.ModelAdmin):
+class SensorAdmin(ImportExportModelAdmin):
 
     def has_recent_data(self, obj):
         recently = datetime.now() - timedelta(hours=24)
@@ -80,13 +69,17 @@ class SensorAdmin(admin.ModelAdmin):
     search_fields = ('user__username',)
     ordering = ('name',)
 
+class ChannelAdmin(ImportExportModelAdmin):
+    list_display = ('name', 'unit')
 
-class SensorReadingAdmin(admin.ModelAdmin):
+class SensorReadingAdmin(ImportExportModelAdmin):
+    resource_class = SensorReadingResource
     fieldsets = [
         ('Fields',            {'fields': [
          'timestamp', 'sensor', 'value', 'channel']}),
     ]
     list_display = ('timestamp', 'sensor', 'channel', 'value')
+    list_filter = ('timestamp', 'sensor', 'channel')
     search_fields = ('sensor__user__username', 'channel')
 
 
@@ -139,7 +132,7 @@ class StudyInfoAdmin(admin.ModelAdmin):
 
 #admin.site.register(AlertMeUser, AlertmeUserAdmin)
 admin.site.register(Sensor, SensorAdmin)
-admin.site.register(Channel)
+admin.site.register(Channel, ChannelAdmin)
 admin.site.register(SensorReading, SensorReadingAdmin)
 admin.site.register(EepromSensorReading, EepromSensorReadingAdmin)
 admin.site.register(Event, EventAdmin)

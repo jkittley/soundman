@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'basicutils',
     'sd_store',
-    'frontend'
+    'frontend',
+    'import_export',
 ]
 
 MIDDLEWARE = [
