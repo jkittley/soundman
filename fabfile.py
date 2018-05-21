@@ -162,7 +162,7 @@ def update_server():
 
 def install_os_packages():
     print_title('Installing OS packages')
-    sudo('apt-get install -y nginx python3-pip python3-dev python3-psycopg2')
+    sudo('apt-get install -y nginx python3-pip python3-dev python3-psycopg2 libatlas-base-dev')
 
 #  Users and Groups
 def add_grp_to_user():
