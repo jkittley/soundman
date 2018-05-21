@@ -10,7 +10,7 @@ This repository is part of a larger project which brings together Raspberry PI's
 * [Make changes to the code](#makechanges)
 * [Deploy changes to a Raspberry Pi](#redeploy)
 * [Add an SSH Key to a Raspberry Pi](#sshkey)
-* [Adding a Sensot](#addsensor)
+* [Adding a Sensor](#addsensor)
 
 ## <a name="setup"></a>Setup 
 Weather you are want to run this project locally or deploy to a Raspberry Pi there are a few steps we need to complete.
