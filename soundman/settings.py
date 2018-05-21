@@ -37,6 +37,7 @@ else:
     DEBUG = True
 
 LOGIN_URL = '/admin/login'
+APPEND_SLASH = True
 
 # Application definition
 
