@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from sd_store.models import Sensor, SensorReading
 from django.http import JsonResponse
 from django import forms
