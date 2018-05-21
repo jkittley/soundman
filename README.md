@@ -3,7 +3,16 @@ This repository is part of a larger project which brings together Raspberry PI's
 
 ![Example](_res/server.jpg)
 
-## Setup 
+## Contents 
+* [Initial Setup](#setup)
+* [Run Locally](#runlocal)
+* [Deploy to a Raspberry Pi](#deploy)
+* [Make changes to the code](#makechanges)
+* [Deploy changes to a Raspberry Pi](#redeploy)
+* [Add an SSH Key to a Raspberry Pi](#sshkey)
+* [Adding a Sensot](#addsensor)
+
+## <a name="setup"></a>Setup 
 Weather you are want to run this project locally or deploy to a Raspberry Pi there are a few steps we need to complete.
 
 1. Create a python 3 environment on your local machine using your favourite virtual environment manager e.g. using Anaconda, and activate it: 
@@ -29,14 +38,14 @@ cd soundsystem-server
 pip install -r requirements_local.txt
 ```
 
-## Run locally
+## <a name="runlocal"></a>Run locally
 If you want to run the project locally then you need to tell Django that the project is on a local machine. You can do this by creating a environmental variable before you run the server:
 
 ```
 export LOCAL=1 & python manage.py runserver
 ```
 
-## Deploy to a remote Raspberry Pi
+## <a name="deploy"></a>Deploy to a remote Raspberry Pi
 I am going to assume you have:
 
 * A PI connected with a [clean install of Raspbian NOOBs](https://www.raspberrypi.org/documentation/installation/noobs.md)
@@ -62,19 +71,22 @@ fab setup_website -H raspberrypi.local
 fab create_superuser -H raspberrypi.local
 ```
 
-## Making changes
+## <a name="makechanges"></a>Making changes
 The project is based on [Django](https://www.djangoproject.com/) and [SD-Store](https://bitbucket.org/ecostanza/sd_store/src/master/README.md). To make modifications you first should verse yourself in how to manipulate Django based websites and how to interact with SD-Store.
 
-## Deploy changes to remote Raspberry Pi
+## <a name="redeploy"></a>Deploy changes to remote Raspberry Pi
 Once you have made changes to the code, you will need to redeploy them to the Raspberry Pi server. The following command will copy across the source files and reboot all the necessary services automatically.
 
 ```
 fab redeploy -H raspberrypi.local
 ```
 
-## Add ssh key
+## <a name="sshkey"></a>Add ssh key
 To save time you can add an SSH key to the PI using this command. Once executed you will no longer need to login!
 
 ```
 fab add_ssh_key:/Users/username-here/.ssh/id_rsa.pub -H raspberrypi.local
 ```
+
+## <a name="addsensor"></a>Add a Sensor
+Adding a sensor is easy. Sound system automatically creates Sensors and Channels for inbound data so all you need to do is make sure the Sensor ID (Node ID) in the sensor code is set correctly (e.g. it is unique). Once data has been receivewd fromt he sensor you can add a friendly name for the sensor node in the admin panel: http://raspberrypi.local/admin/.
