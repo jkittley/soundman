@@ -11,7 +11,7 @@ This repository is part of a larger project which brings together Raspberry PI's
 * [Deploy changes to a Raspberry Pi](#redeploy)
 * [Add an SSH Key to a Raspberry Pi](#sshkey)
 * [Adding a Sensor](#addsensor)
-
+* [Remote Access to the Pi via VNC](#vnc)
 ## <a name="setup"></a>Setup 
 Weather you are want to run this project locally or deploy to a Raspberry Pi there are a few steps we need to complete.
 
@@ -90,3 +90,24 @@ fab add_ssh_key:/Users/username-here/.ssh/id_rsa.pub -H raspberrypi.local
 
 ## <a name="addsensor"></a>Add a Sensor
 Adding a sensor is easy. Sound system automatically creates Sensors and Channels for inbound data so all you need to do is make sure the Sensor ID (Node ID) in the sensor code is set correctly (e.g. it is unique). Once data has been receivewd fromt he sensor you can add a friendly name for the sensor node in the admin panel: http://raspberrypi.local/admin/.
+
+
+## <a name="vnc"></a>Setup Access the Pi desktop via VNC
+If you want to access the Pi from a remote location then the easiest way is to use VNC. This method does not require the router settings to be altered and all the necessary tools are already installed in Raspbian Jessie onward.
+
+1. SSH into the PI and make sure VNC is upto date: `sudo apt-get install realvnc-vnc-server realvnc-vnc-viewer`
+2. Open VNC Config: `nano /root/.vnc/config.d/vncserver-x11`
+3. Replace "Authentication=SystemAuth" with "Authentication=VncAuth" and save the file. If there is no line to replace, just add the "Authentication=VncAuth" on a new line.
+4. Run `sudo vncpasswd -service` and create a password.
+5. Run `sudo raspi-config`
+6. Navigate to Interfacing Options, scroll down and select VNC > Yes.
+7. Navigate to Boot Options, and make sure the Pi starts up in the desktop.
+8. Exit, save and reboot the Pi
+9. Navigate to https://www.realvnc.com/ and create an account.
+10. Download the VNC viewer for your machine.
+11. Add your realvnc.com credentials to the VNC viewer app.
+12. Connect to you Pi on the local network e.g. `raspberrypi.local`
+13. On the desktop use the VNC management tool to add your realvnc.com credentials. Click the menu and select "licensing"
+14. Close the currect connection.
+15. The PI should now appear in your list of remote devices.
+15. Double click on the PI and test the connection.
