@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import render_to_response
 import pandas as pd
 from datetime import time
+from dateutil import tz
 from sd_store.models import Sensor, Channel, SensorReading
 
 from bokeh.io import show
@@ -24,9 +25,9 @@ class CalendarView(TemplateView):
     def get(self, request):
 
         interval_mins = 15
-
-        sensor = Sensor.objects.get(mac='sensor202')
-        channel = Channel.objects.get(name="volume") 
+        mac = request.GET.get('mac','sensor202')
+        sensor = Sensor.objects.get(mac=mac)
+        channel = sensor.channels.get(name="volume") 
 
         df = pd.DataFrame(list(SensorReading.objects.filter(sensor=sensor, channel=channel).values('timestamp', 'value')))
         # Make the timestamp the index
@@ -38,9 +39,10 @@ class CalendarView(TemplateView):
         # Drop NaN Rows
         df = df.dropna()
         # Add Date and hour columns
-        df['date'] = df.index.strftime('%Y-%m-%d')
-        df['intvl'] = df.index.strftime('%H:%M')
-            
+        
+        df['date']  = df.index.tz_convert("GMT").strftime('%Y-%m-%d')
+        df['intvl'] = df.index.tz_convert("GMT").strftime('%H:%M')
+    
         intvls = [ time(h, m).strftime('%H:%M') for h in range(0, 24) for m in range(0, 60, interval_mins)]
         dates = df['date'].unique()
 
@@ -48,8 +50,10 @@ class CalendarView(TemplateView):
         print (intvls)
   
         # this is the colormap from the original NYTimes plot
-        colors = ["#75968f", "#a5bab7", "#c9d9d3", "#e2e2e2", "#dfccce", "#ddb7b1", "#cc7878", "#933b41", "#550b1d"]
-        mapper = LinearColorMapper(palette=colors, low=df.value.min(), high=df.value.max())
+        colors = ['#008000','#338d00','#4f9a00','#68a800','#7fb500','#97c200','#aed000','#c5dd00','#dceb00','#f3f800','#fff500','#ffe200','#ffcf00','#ffbb00','#ffa700','#ff9100','#ff7b00','#ff6200','#ff4300','#ff0000']
+        # colors = ["#75968f", "#a5bab7", "#c9d9d3", "#e2e2e2", "#dfccce", "#ddb7b1", "#cc7878", "#933b41", "#550b1d"]
+        # mapper = LinearColorMapper(palette=colors, low=df.value.min(), high=df.value.max())
+        mapper = LinearColorMapper(palette=colors, low=25, high=110)
 
         TOOLS = "hover,save,pan,box_zoom,reset,wheel_zoom"
         p = figure(title="Sensor Data",
@@ -66,32 +70,26 @@ class CalendarView(TemplateView):
         p.axis.major_label_standoff = 0
         p.xaxis.major_label_orientation = pi / 3
 
-        # source = ColumnDataSource(df)
-
-        source = ColumnDataSource(
-            data=dict(
-                date=[ str(x) for i, x in df['date'].iteritems() ],
-                intvl=[ str(y) for i, y in df['intvl'].iteritems() ],
-                value=[ str(x) for i, x in df['value'].iteritems() ],
-            )
-        )
-
-        print (source.data)
+        source = ColumnDataSource(df)
+        #     data=dict(
+        #         date=[ str(x) for i, x in df['date'].iteritems() ],
+        #         intvl=[ str(y) for i, y in df['intvl'].iteritems() ],
+        #         value=[ str(x) for i, x in df['value'].iteritems() ],
+        #     )
+        # )
 
         p.rect(x="intvl", y="date", width=1, height=1,
             source=source,
             fill_color={'field': 'value', 'transform': mapper},
             line_color=None)
 
-        color_bar = ColorBar(color_mapper=mapper, major_label_text_font_size="5pt",
+        color_bar = ColorBar(color_mapper=mapper, major_label_text_font_size="12pt",
                             ticker=BasicTicker(desired_num_ticks=len(colors)),
-                            formatter=PrintfTickFormatter(format="%d%%"),
-                            label_standoff=6, border_line_color=None, location=(0, 0))
+                            formatter=PrintfTickFormatter(format="%d db"),
+                            label_standoff=14, border_line_color=None, location=(0, 0))
         p.add_layout(color_bar, 'right')
 
         p.select_one(HoverTool).tooltips = [
-            ('date', '@date'),
-            ('interval', '@intvl'),
             ('value', 'Mean dB: @value{1.11}'),
         ]
 
