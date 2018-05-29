@@ -4,7 +4,8 @@ from datetime import datetime, timedelta
 from RFM69 import Radio, FREQ_433MHZ
 import requests
 
-
+max_readings = 6 # number of readings that are in a packet
+off_sec = 3 # seconds between the readings in one packet
 
 # login
 base_url = 'http://raspberrypi.local/'
@@ -54,9 +55,9 @@ def save_reading(sensor_id, channel_id, ts, value):
 def process_packet(packet):
     #ts = packet.received.strftime('%a %b %d %H:%M:%S %Y')
     sensor_id = "sensor{}".format(packet.sender)
-    for i in range(0,3):
-        for key, value in dict(volume=packet.data[i], battery=packet.data[3], RSSI=packet.RSSI).items():         
-            ts = packet.received + timedelta(seconds=i+1)
+    for i in range(0, max_readings):
+        for key, value in dict(volume=packet.data[i], battery=packet.data[max_readings], RSSI=packet.RSSI).items():         
+            ts = packet.received + timedelta(seconds=-((max_readings * off_sec) - i*off_sec))
             if not save_reading(sensor_id, key, ts.strftime('%a %b %d %H:%M:%S %Y'), value):
                 if create_sensor(sensor_id):
                     create_channel(sensor_id, key)
