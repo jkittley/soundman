@@ -16,7 +16,13 @@
         <script src="{% static "frontend/bootstrap.min.js" %}"></script>
         <script src="{% static "frontend/moment.js" %}"></script>
         <script defer type="text/javascript"  src="{% static "frontend/fontawesome-all.min.js" %}"></script>
+        <script src="{% static "frontend/clock.js" %}"></script>
+        <script src="{% static "frontend/data-functions.js" %}"></script>
+        <script>
+            window.appTag = 'YES';
+        </script>
         {% block script %}{% endblock %}
+
     </head>
     <body>
         <nav class="navbar fixed-top navbar-dark justify-content-between mb-4" style="background-color: #ec68b9;">
@@ -27,6 +33,12 @@
                 <span id="serverDate" class="d-none d-sm-inline">...</span>
                 <span id="serverTime">, ...</span>
             </a>
+            <form class="form-inline pb-0 mb-0">
+                <a class="btn btn-primary mr-2 mb-0" href="#" onclick="window.location.reload()"><i class="fas fa-sync"></i><span class="d-none d-md-inline"> Refresh</span></a>
+                {% if is_device %}
+                <a class="btn btn-success mr-l mb-0" href="#close"><i class="fas fa-window-close"></i><span class="d-none d-md-inline"> Close </span></a>
+                {% endif %}
+            </form>
             {% block navbar %}{% endblock %}
         </nav>
         {% csrf_token %}

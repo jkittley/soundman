@@ -1,8 +1,8 @@
 import time
 import json
 from datetime import datetime
-from RFM69 import Radio, FREQ_433MHZ
 import requests
+import serial
 
 # login
 base_url = 'http://raspberrypi.local/'
@@ -11,6 +11,8 @@ sd_store_url = base_url + 'sdstore/'
 session    = requests.Session()
 login_page = session.get(login_url)
 session.post(login_url, data=dict(username="sensor", password="sdstoredevice", csrfmiddlewaretoken=login_page.cookies['csrftoken']))
+
+SERIAL_PORT = '/dev/ttyACM0'
 
 freqs = {
     "volume": 1,
@@ -49,37 +51,34 @@ def save_reading(sensor_id, channel_id, ts, value):
     # print(r.text)
     return r.status_code == 200
 
-def process_packet(packet):
-    
-    # ts = packet.received.strftime('%a %b %d %H:%M:%S %Y')
-    ts = datetime.utcnow()
-
-    sensor_id = "sensor{}".format(packet.sender)
-
-    for key, value in dict(volume=packet.data[0], battery=packet.data[1], RSSI=packet.RSSI).items():         
+def process_line(line):
+    if line.startswith("{"):
+        print(line)
+        # try:
+        data = json.loads(line)
+        print(data)
         
-        if not save_reading(sensor_id, key, ts, value):
-            if create_sensor(sensor_id):
-                create_channel(sensor_id, key)
+        ts = datetime.utcnow().strftime('%a %b %d %H:%M:%S %Y')
+
+        sensor_id = "sensor{}".format(data['sender'])
+        for key, value in dict(volume=data['pay_volume'], battery=data['pay_battery'], RSSI=data['rssi']).items():      
+            if not save_reading(sensor_id, key, ts, value):
+                if create_sensor(sensor_id):
+                    create_channel(sensor_id, key)
+                else:
+                    print ("Failed to create sensor")
             else:
-                print ("Failed to create sensor")
+                print ("Saved")
+        # except:
+        #     pass
 
 
-print ("Starting 123")
-with Radio(FREQ_433MHZ, 1, isHighPower=True, power=100, verbose=True) as radio:
-
+print ("Starting Serial Monitor")
+with serial.Serial(SERIAL_PORT, 115200, timeout=10) as ser:
     print ("Starting loop")
     while True:
-
-        print ("loop")
-
-        while not radio.has_received_packet():
-            # radio.broadcast('advert')
-            # print("Advert Send")
-            time.sleep(.2)
-
-        for packet in radio.get_packets():
-            print("Packet received", packet.to_dict())
-            process_packet(packet)
-        
-
+        line = ser.readline().decode("utf-8").strip()
+        process_line(line)
+        # transmit(ser, verbose)
+        if not ser.is_open:
+            ser.open()

@@ -8,10 +8,17 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.conf import settings
 
-def index(request):
-    sensors = Sensor.objects.all()
-    is_device = "device" in request.GET
 
+def default_context(request):
+    is_device = "device" in request.GET
+    return { 
+        "sensors": Sensor.objects.all(), 
+        "is_device": is_device, 
+        "datetime": datetime.now() 
+    }
+
+def index(request):
+    
     # Create the default user if needed
     if request.user.is_anonymous:
         new_user = authenticate(username=settings.SDSTORE_USER, password=settings.SDSTORE_PASS)
@@ -22,7 +29,7 @@ def index(request):
     
     # GET Request
     if request.method != "POST":
-        return render(request, "frontend/index.html", { "sensors": sensors, "is_device": is_device, "datetime": datetime.now() })
+        return render(request, "frontend/index.html", {})
 
     # POST request
     form = DataForm(request.POST)
@@ -46,6 +53,14 @@ def index(request):
     return JsonResponse([ v for k, v in by_time.items() ], safe=False)
 
 
+
+
+def time(request):
+    return render(request, "frontend/time.html")
+
+
+def vumeters(request):
+    return render(request, "frontend/vumeters.html")
 
 class DataForm(forms.Form):
     start  = forms.DateTimeField(required=True, initial=datetime.now())

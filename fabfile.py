@@ -70,11 +70,12 @@ def add_ssh_key(path=None):
 def redeploy():
     sync_files()
     set_permissions()
-    install_venv_requirements()
-    django_migrate()
+    # install_venv_requirements()
+    # django_migrate()
     django_collect_static()
     restart_web_services()
-    restart_rfm69radio_service()
+    # restart_rfm69radio_service()
+    restart_rfm69serial_service()
 
 @task
 def install_webserver():
@@ -103,7 +104,8 @@ def setup_website():
     sdstore_optimise_db()
     django_collect_static()
     # Background services
-    setup_rfm69radio_service()
+    # setup_rfm69radio_service()
+    setup_rfm69serial_service()
 
 # =============================================================================
 # SUB TASKS
@@ -391,7 +393,7 @@ def django_collect_static():
 def setup_rfm69radio_service():
     print_title('Installing RFM69 Radio Service')
     with virtualenv(Settings.DIR_VENV):
-        install('RFM69Radio', use_sudo=False)
+        install('rpi-rfm69', use_sudo=False)
 
     conf = '''[Unit]
         Description=RFM69 Radio daemon
@@ -418,10 +420,47 @@ def setup_rfm69radio_service():
     sudo('systemctl start rfm69')
 
 @task
+def setup_rfm69serial_service():
+    print_title('Installing RFM69 Serial Service')
+    with virtualenv(Settings.DIR_VENV):
+        install('pyserial', use_sudo=False)
+
+    conf = '''[Unit]
+        Description=Serial daemon
+        After=network.target
+
+        [Service]
+        User={USER}
+        Group={GRP}
+        WorkingDirectory={PATH}
+        Restart=always
+        ExecStart={VIRTUALENV_PATH}bin/python rfmSerial.py
+
+        [Install]
+        WantedBy=multi-user.target
+        '''.format(
+            PATH=Settings.DIR_CODE,
+            USER=env.user,
+            GRP=Settings.DEPLOY_GRP,
+            VIRTUALENV_PATH=Settings.DIR_VENV
+        )
+    service = "/etc/systemd/system/rfmserial.service"
+    files.append(service, conf, use_sudo=True)
+    sudo('systemctl enable rfmserial')
+    sudo('systemctl start rfmserial')
+
+@task
 def restart_rfm69radio_service():
     print_title('Restarting RFM69 Service')
     sudo('systemctl daemon-reload')
     sudo('systemctl restart rfm69')
+
+@task
+def restart_rfm69serial_service():
+    print_title('Restarting RFM69 Service')
+    sudo('systemctl daemon-reload')
+    sudo('systemctl restart rfmserial')
+
 
 @task
 def sdstore_optimise_db():

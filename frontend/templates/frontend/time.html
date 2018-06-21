@@ -1,0 +1,176 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block style %}
+<link href="{% static "frontend/c3.min.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+<script src="{% static "frontend/d3.v4.min.js" %}" charset="utf-8"></script>
+<script src="{% static "frontend/c3.min.js" %}"></script>
+{% endblock %}
+
+  
+{% block content %} 
+    <div class="container-fluid">
+        <div class="row">
+            <div id="plot-space" class="col-md-12 col-lg-7 col-xl-8"></div>
+            <div class="col-md-12 col-lg-5 col-xl-4">
+                <ul id="data-list" class="list-group"></ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}     
+
+{% block endscript %}   
+    <script>
+        var plots = {};
+        var plotData={};
+        
+        // List
+
+        var sensorListItemExists = function (sensor) { 
+            return $( "#list-"+sensor.id ).length;
+        };
+
+        var createSensorListItem = function(sensor) {
+            var chlist = $("<ul>").addClass('pl-0');
+            $('<li>')
+                .prop('id', 'list-'+sensor.id)
+                .addClass('list-group-item')
+                .html('<strong>'+sensor.name+'</strong>').append(chlist)
+                .appendTo( "#data-list" );
+        };
+
+        var getSensorListItem = function(sensor) {
+            return $("#list-"+sensor.id);
+        }
+
+        var channelListItemExists = function (sensor, channel) {
+            return $( "#list-"+sensor.id + " .channel_"+channel.id).length;
+        };
+
+        var createChannelListItem = function(sensor, channel) {
+            $( "<li>")
+                .addClass('channel_'+channel.id)
+                .addClass('row')
+                .append("<div class='col-auto' style='text-transform: capitalize;'>"+channel.name+":</div>")
+                .append("<div class='col-auto ts'></div>")
+                .append("<div class='col-auto val'></div>")
+                .appendTo(getSensorListItem(sensor).find('ul'));                
+        }
+
+        var getChannelListItem = function(sensor, channel) {
+            return $("#list-"+sensor.id + " .channel_"+channel.id);
+        }
+
+        var updateChannelListItem = function(sensor, channel, reading) {
+            var channel = getChannelListItem(sensor, channel);
+            var elemTs = channel.find('.ts');
+            if (elemTs.html() !== reading.timestamp) {
+                channel.find('.val').html(reading.value);
+                elemTs.html(reading.timestamp);
+            }
+        }
+
+        // Plot
+
+        var sensorPlotExists = function(sensor) {
+            return $("#plot-"+sensor.id).length;
+        };
+
+        var createSensorPlot = function(sensor) {
+            
+            $('<div>').addClass("card").addClass("mb-4")
+                .append('<div class="card-header" style="text-transform: capitalize;">'+sensor.name + ' (' + sensor.mac + ')'+'</div>')
+                .append('<div class="card-body"><div id="plot-'+sensor.id+'"></div></div>')
+                .appendTo('#plot-space');
+            
+            plotData[sensor.id] = {
+                json: [],
+                keys: { 
+                    x: 'ts',
+                    value: [] 
+                },
+                names: {}
+            };
+            for (i in sensor.channels) {
+                plotData[sensor.id]['keys']['value'].push(sensor.channels[i].name);
+                plotData[sensor.id]['names'][sensor.channels[i].name] = sensor.channels[i].name;
+            }
+            
+            var settings = {
+                bindto: '#plot-'+sensor.id,
+                data: {
+                    x: 'ts',
+                    xFormat: '%Y-%m-%d %H:%M:%S',
+                    json: [],
+                    keys: plotData[sensor.id]['keys'],
+                    names: plotData[sensor.id]['names']
+                },
+                axis: {
+                    x: {
+                        type: 'timeseries',
+                        tick: {
+                            format: '%y-%m-%d %H:%M'
+                        }
+                    }
+                }
+            };
+            plots[sensor.id] = c3.generate(settings);
+            console.log(settings);
+        };
+        
+        var updatePlot = function(sensor, readings) {
+            console.log(readings);
+            // var mostRecent = plotData[sensor.id]['json'][plotData[sensor.id]['json'].length-1];
+            // var add = mostRecent === undefined || mostRecent.ts !== reading.timestamp;
+            // var saveData = add ? {} : mostRecent;
+            // //
+            // saveData['ts'] = reading.timestamp;
+            // saveData[channel.id] = reading.value;
+            // //
+            // console.log(plotData[sensor.id]['json']);
+            // if (add) plotData[sensor.id]['json'].push(saveData); 
+            // else plotData[sensor.id]['json'][plotData[sensor.id]['json'].length-1] = saveData;
+            // //
+            plots[sensor.id].load({
+                keys: plotData[sensor.id]['keys'],
+                names: plotData[sensor.id]['names'],
+                json: readings
+            });
+        }
+
+        // Run
+        var main = function() {
+
+            var s = moment().subtract(2, 'h');
+            var e = moment();
+
+            getSensors(function (sensor) {
+                // If the sensor has not been seen before
+                if (!sensorListItemExists(sensor)) createSensorListItem(sensor); 
+                if (!sensorPlotExists(sensor)) createSensorPlot(sensor); 
+                //For each of the sensors channels
+                $.each( sensor.channels, function( j, channel ) {
+                    if (!channelListItemExists(sensor, channel)) createChannelListItem(sensor, channel);
+                    // Get latest
+                    getLastReading(sensor, channel, function(reading) {
+                        console.log(reading);
+                        updateChannelListItem(sensor, channel, reading);
+                        
+                    })
+                });
+                // Get readings
+                getReadings(sensor, s, e, function(readings) {
+                    updatePlot(sensor, readings);
+                });
+                
+        });
+        }
+
+        // Every 10 seconds refresh the data
+        main();
+        var timer = setInterval(main, 10 * 1000);
+    </script>
+{% endblock %}
