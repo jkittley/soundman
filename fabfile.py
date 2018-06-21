@@ -70,12 +70,12 @@ def add_ssh_key(path=None):
 def redeploy():
     sync_files()
     set_permissions()
-    # install_venv_requirements()
-    # django_migrate()
+    install_venv_requirements()
+    django_migrate()
     django_collect_static()
     restart_web_services()
-    # restart_rfm69radio_service()
-    restart_rfm69serial_service()
+    restart_rfm69radio_service()
+    # restart_rfm69serial_service()
 
 @task
 def install_webserver():
