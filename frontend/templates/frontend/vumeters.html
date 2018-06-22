@@ -59,6 +59,8 @@
             best_sig: Math.abs(-25), 
         }
         
+        var signalBarRed = "{% static 'frontend/vumeters/bar-red.svg' %}";
+        var signalBarMinRed = "{% static 'frontend/vumeters/signal-min-red.svg' %}";
         var signalBar0   = "{% static 'frontend/vumeters/bar-0.svg' %}";
         var signalBar1   = "{% static 'frontend/vumeters/bar-1.svg' %}";
         var signalBarMin = "{% static 'frontend/vumeters/signal-min.svg' %}";
@@ -81,21 +83,28 @@
         // Takes a percentage
         var setMeters = function(vol, sig) {
             console.log("setting meters", vol, sig);
+                
             var signalBars = Math.round(app.num_signal_bars * (sig / 100));
-                console.log('signalBars', signalBars);
+            console.log('signalBars', signalBars);
 
-                var volumeBars = Math.round(app.num_volume_bars * (vol / 100));
-                console.log('volumeBars', volumeBars);
+            var volumeBars = Math.round(app.num_volume_bars * (vol / 100));
+            console.log('volumeBars', volumeBars);
 
-                for (var i = 0; i < app.num_signal_bars; i++) {
-                    var z = (i < signalBars ? signalBar1: signalBar0);
-                    $('#signal-bar-'+i).attr('src', z);
-                }
+            for (var i = 0; i < app.num_signal_bars; i++) {
+                var z = (i < signalBars ? signalBar1: signalBar0);
+                $('#signal-bar-'+i).attr('src', z);
+            }
 
-                for (var i = 0; i < app.num_volume_bars; i++) {
-                    var z = (i < volumeBars ? volumeBar1 : volumeBar0);
-                    $('#volume-bar-'+i).attr('src', z);
-                }
+            for (var i = 0; i < app.num_volume_bars; i++) {
+                var z = (i < volumeBars ? volumeBar1 : volumeBar0);
+                $('#volume-bar-'+i).attr('src', z);
+            }
+        }
+
+        var setDead = function() {
+            for (var i = 0; i < app.num_signal_bars; i++) {
+                $('#signal-bar-'+i).attr('src', signalBarRed);
+            }
         }
 
         var wifiConnectionToServerFailed = function (error_message) {
@@ -146,11 +155,13 @@
                             console.log("reading too old", ts.format('HH:mm:ss'), " [ now: ", moment.utc().format('HH:mm:ss'), ']' );
                             console.log("diff ",diff," | cutoff_age ", cutoff_age);
                             setMeters(0, 0);
+                            setDead();
                             return;
                         } else {
                             // vol = Math.max(0, Math.min(100, 100 * ( (vol-app.min_db) / (app.max_db-app.min_db) ) ));
+                            // $('#signal-row')
                             sig = 100 - Math.max(0, Math.min(100, 100 * ( (Math.abs(sig) - app.best_sig) / (app.worst_sig-app.best_sig) ) ));
-                            setMeters(vol, sig);
+                            setMeters(vol, sig, "black");
                         }
                     }
                 });
@@ -168,7 +179,7 @@
             if (x !== null) sensor_mac = x;
             y = prompt("Expecting readings every how many seconds?", reading_expected_every_seconds);
             if (y !== null) reading_expected_every_seconds = parseInt(y);
-            z = prompt("How many seconds is the last reading considered to be too old?", reading_expected_every_seconds);
+            z = prompt("How many seconds is the last reading considered to be too old?", cutoff_age);
             if (y !== null) cutoff_age = parseInt(z);
 
             console.log("Settings: ")
