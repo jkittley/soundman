@@ -267,9 +267,9 @@ def setup_nginx():
         server {{
 
             # Block all names not in list i.e. prevent HTTP_HOST errors
-            if ($host !~* ^({SERVER_NAMES})$) {{
-               return 444;
-            }}
+            #if ($host !~* ^({SERVER_NAMES})$) {{
+            #   return 444;
+            #}}
 
             listen      80;
             server_name {SERVER_NAMES};

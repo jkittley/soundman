@@ -52,7 +52,7 @@ def save_reading(sensor_id, channel_id, ts, value):
 def process_packet(packet):
     
     # ts = packet.received.strftime('%a %b %d %H:%M:%S %Y')
-    ts = datetime.utcnow()
+    ts = datetime.utcnow().strftime('%a %b %d %H:%M:%S %Y')
 
     sensor_id = "sensor{}".format(packet.sender)
 
