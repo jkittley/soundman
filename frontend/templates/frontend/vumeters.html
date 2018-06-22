@@ -79,7 +79,7 @@
         }
         
         // Takes a percentage
-        var setMeters = function(sig, vol) {
+        var setMeters = function(vol, sig) {
             console.log("setting meters", vol, sig);
             var signalBars = Math.round(app.num_signal_bars * (sig / 100));
                 console.log('signalBars', signalBars);
@@ -133,7 +133,7 @@
                         console.log(reading);
 
                         var vol = reading.volume;
-                        var sig = reading.RSSI;
+                        var sig = reading.rssi;
                         var ts = moment.utc(reading.ts);
 
                         // Is reading old?
@@ -144,7 +144,7 @@
                             setMeters(0, 0);
                             return;
                         } else {
-                            vol = Math.max(0, Math.min(100, 100 * ( (vol-app.min_db) / (app.max_db-app.min_db) ) ));
+                            // vol = Math.max(0, Math.min(100, 100 * ( (vol-app.min_db) / (app.max_db-app.min_db) ) ));
                             sig = 100 - Math.max(0, Math.min(100, 100 * ( (Math.abs(sig) - app.best_sig) / (app.worst_sig-app.best_sig) ) ));
                             setMeters(vol, sig);
                         }
@@ -170,7 +170,11 @@
             console.log("Settings: ")
             console.log("sensor_mac", sensor_mac);
             console.log("reading_expected_every_seconds", reading_expected_every_seconds);
-            console.log("cutoff_age", cutoff_age);           
+            console.log("cutoff_age", cutoff_age);       
+            
+            clearInterval(timer);
+            var timer = setInterval(main, (reading_expected_every_seconds / 2) * 1000); 
+
         });
         
     </script>
