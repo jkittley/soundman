@@ -128,7 +128,11 @@
                     
                     if (readings.length > 0) {
 
-                        var reading = readings[0];  
+                        var reading = readings[0];
+                        for (r in readings) {
+                            if (moment.utc(r.ts).isAfter(moment.utc(reading.ts))) reading = r;
+                        }
+
                         // var reading = readings[readings.length-1];
                         console.log(reading);
 
