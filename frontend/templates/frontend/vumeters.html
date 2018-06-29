@@ -156,6 +156,7 @@
                             console.log("diff ",diff," | cutoff_age ", cutoff_age);
                             setMeters(0, 0);
                             setDead();
+                            alert("No Data received for "+ cutoff_age + " seconds. Is the sensor in configuration mode?");
                             return;
                         } else {
                             // vol = Math.max(0, Math.min(100, 100 * ( (vol-app.min_db) / (app.max_db-app.min_db) ) ));
