@@ -27,13 +27,36 @@ units = {
 
 def save_reading(sensor_id, channel_id, ts, value):
     print("Creating reading for ", channel_id)
-   
+    
+    # Get or create the user
     u, created = User.objects.get_or_create(username=SDSTORE_USER)
     if created:
         u.set_password(SDSTORE_PASS)
 
-    s, _ = Sensor.objects.get_or_create(mac=sensor_id, user=u)
-    c, _ = Channel.objects.get_or_create(name=channel_id, reading_frequency=1)
+    # Get of create the sensor
+    try:
+        s = Sensor.objects.get(mac=sensor_id)
+    except Sensor.DoesNotExist:
+        s = Sensor(mac=sensor_id, user=u, name=sensor_id, sensor_type="sensor-node")
+        s.save()
+
+    # Get the channel
+    try:
+        c = Channel.objects.get(name=channel_id)
+    except Channel.DoesNotExist:
+        c = Channel(name=channel_id, unit=units[channel_id], reading_frequency=freqs[channel_id])
+        c.save()
+
+    except Channel.MultipleObjectsReturned:
+        if s.channels.filter(name=channel_id).count() > 1:
+            c = s.channels.filter(name=channel_id).first()
+        else:
+            c = Channel.objects.filter(name=channel_id).first()
+
+    if s.channels.filter(name=channel_id).count() == 0:
+        s.channels.add(c)
+        s.save()
+    
     r = SensorReading(timestamp=ts, sensor=s, channel=c, value=value)
     r.save()
     return True
@@ -45,7 +68,7 @@ def process_line(line):
             print(data)       
             ts = timezone.now()
 
-            sensor_id = "sensor{}".format(data['sender'])
+            sensor_id = "S{}".format(data['sender'])
             for key, value in dict(volume=data['pay_volume'], battery=data['pay_battery'], RSSI=data['rssi']).items():      
                 save_reading(sensor_id, key, ts, value)
 
