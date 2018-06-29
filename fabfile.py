@@ -74,8 +74,8 @@ def redeploy():
     django_migrate()
     django_collect_static()
     restart_web_services()
-    restart_rfm69radio_service()
-    # restart_rfm69serial_service()
+    # restart_rfm69radio_service()
+    restart_rfm69serial_service()
 
 @task
 def install_webserver():
@@ -83,6 +83,8 @@ def install_webserver():
     update_server()
     install_os_packages()
     add_grp_to_user()
+    setup_mysql()
+    remove_bloat()
 
 @task
 def setup_website():
@@ -97,7 +99,6 @@ def setup_website():
     setup_gunicorn()
     restart_web_services()
     # Database & Requirements
-    setup_mysql()
     restart_db_services()
     # Django Tasks
     django_migrate()
@@ -156,6 +157,13 @@ def print_success(message):
 # Sub Tasks - OS
 # ----------------------------------------------------------------------------------------
 
+def remove_bloat():
+    print_title('Removing bloatware')
+    sudo('apt-get purge wolfram-engine -y')
+    sudo('apt-get clean -y')
+    sudo('apt-get autoremove -y')
+    sudo('apt-get remove --purge libreoffice* -y')
+
 def update_server():
     print_title('Updating server')
     sudo('apt-get update -y')
@@ -164,7 +172,7 @@ def update_server():
 
 def install_os_packages():
     print_title('Installing OS packages')
-    sudo('apt-get install -y nginx python3-pip python3-dev python3-psycopg2 libatlas-base-dev')
+    sudo('apt-get install -y nginx python3-pip python3-dev python3-psycopg2 libatlas-base-dev libpq-dev python-dev')
 
 #  Users and Groups
 def add_grp_to_user():
