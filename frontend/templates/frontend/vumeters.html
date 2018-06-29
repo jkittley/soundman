@@ -69,11 +69,13 @@
         var volumeBar1   = "{% static 'frontend/vumeters/bar-1.svg' %}";
         var volumeBarMin = "{% static 'frontend/vumeters/volume-min.svg' %}";
         var volumeBarMax = "{% static 'frontend/vumeters/volume-max.svg' %}";
+        var signalLost = "{% static 'frontend/vumeters/signal-lost.svg' %}";
+        var signalBarLost = "{% static 'frontend/vumeters/bar-lost.svg' %}";
 
         var initPlot = function() {
-            $('#signal-row').html('<div class="col-1 strength-bar"><img src="' + signalBarMin + '"></div>');
+            $('#signal-row').html('<div class="col-1 strength-bar"><img id="signalbar-min" src="' + signalBarMin + '"></div>');
             for (var i = 0; i < app.num_signal_bars; i++) $('#signal-row').append('<div class="col-1 strength-bar"><img id="signal-bar-'+i+'" src="' + signalBar0 + '"></div>');
-            $('#signal-row').append('<div class="col-1 strength-bar"><img src="' + signalBarMax + '"></div>');
+            $('#signal-row').append('<div class="col-1 strength-bar"><img id="signalbar-max" src="' + signalBarMax + '"></div>');
 
             $('#volume-row').html('<div class="col-1 strength-bar"><img src="' + volumeBarMin + '"></div>');
             for (var i = 0; i < app.num_volume_bars; i++) $('#volume-row').append('<div class="col-1 strength-bar"><img id="volume-bar-'+i+'" src="' + volumeBar0 + '"></div>');
@@ -90,20 +92,26 @@
             var volumeBars = Math.round(app.num_volume_bars * (vol / 100));
             console.log('volumeBars', volumeBars);
 
-            for (var i = 0; i < app.num_signal_bars; i++) {
-                var z = (i < signalBars ? signalBar1: signalBar0);
-                $('#signal-bar-'+i).attr('src', z);
-            }
+            if (signalBars == 0) {
+                var z = signalBarLost;
+                $('#signalbar-min').attr('src', signalLost);
+                $('#signalbar-max').attr('src', signalLost);
+                for (var i = 0; i < app.num_signal_bars; i++) {
+                    $('#signal-bar-'+i).attr('src', z);  
+                }                
+            } else {
+                $('#signalbar-min').attr('src', signalBarMin);
+                $('#signalbar-max').attr('src', signalBarMax);
+
+                for (var i = 0; i < app.num_signal_bars; i++) {
+                    var z = (i < signalBars ? signalBar1: signalBar0);
+                    $('#signal-bar-'+i).attr('src', z);
+                }
+            }           
 
             for (var i = 0; i < app.num_volume_bars; i++) {
                 var z = (i < volumeBars ? volumeBar1 : volumeBar0);
                 $('#volume-bar-'+i).attr('src', z);
-            }
-        }
-
-        var setDead = function() {
-            for (var i = 0; i < app.num_signal_bars; i++) {
-                $('#signal-bar-'+i).attr('src', signalBarRed);
             }
         }
 
