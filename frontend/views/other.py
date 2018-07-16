@@ -19,6 +19,10 @@ def default_context(request):
 
 def index(request):
     
+    request.session['pick_selected'] = None
+    del request.session['pick_selected']
+    request.session.modified = True
+
     # Create the default user if needed
     if request.user.is_anonymous:
         new_user = authenticate(username=settings.SDSTORE_USER, password=settings.SDSTORE_PASS)
@@ -53,13 +57,47 @@ def index(request):
     return JsonResponse([ v for k, v in by_time.items() ], safe=False)
 
 
+def picker(request):
+    if request.method == "POST":
+        request.session['pick_selected'] = {}
+
+        if request.session['pick_channels']:
+            sensor_channels = request.POST.getlist('channels')
+            for sc in sensor_channels:
+                sid = sc.split('_')[0]
+                cid = sc.split('_')[1]
+                sensor = Sensor.objects.get(id=int(sid))
+                channel = sensor.channels.get(id=int(cid))
+                if sensor.pk not in request.session['pick_selected']:
+                    request.session['pick_selected'][sensor.pk] = []
+                request.session['pick_selected'][sensor.pk].append(channel.pk)
+            return redirect(request.session['pick_redirect'])
+
+        else:
+            sensors = request.POST.getlist('sensors')
+            for spk in sensors:
+                sensor = Sensor.objects.get(id=int(spk))
+                request.session['pick_selected'][spk] = [ c.pk for c in sensor.channels.all() ]
+            return redirect(request.session['pick_redirect'])
+
+    return render(request, "frontend/picker.html")
 
 
 def time(request):
+    if "pick_selected" not in request.session:
+        request.session['pick_redirect'] = "time"
+        request.session['pick_channels'] = True
+        request.session['pick_multiple'] = True
+        return redirect('picker')
     return render(request, "frontend/time.html")
 
 
 def vumeters(request):
+    if "pick_selected" not in request.session:
+        request.session['pick_redirect'] = "vumeters"
+        request.session['pick_channels'] = True
+        request.session['pick_multiple'] = False
+        return redirect('picker')
     return render(request, "frontend/vumeters.html")
 
 class DataForm(forms.Form):

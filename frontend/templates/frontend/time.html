@@ -67,9 +67,11 @@
         var updateChannelListItem = function(sensor, channel, reading) {
             var channel = getChannelListItem(sensor, channel);
             var elemTs = channel.find('.ts');
-            if (elemTs.html() !== reading.timestamp) {
-                channel.find('.val').html(reading.value);
-                elemTs.html(reading.timestamp);
+            if (reading && reading.timestamp !== undefined && reading.timestamp !== null) {
+                if (elemTs.html() !== reading.timestamp) {
+                    channel.find('.val').html(reading.value);
+                    elemTs.html(reading.timestamp);
+                }
             }
         }
 
@@ -95,8 +97,11 @@
                 names: {}
             };
             for (i in sensor.channels) {
-                plotData[sensor.id]['keys']['value'].push(sensor.channels[i].name);
-                plotData[sensor.id]['names'][sensor.channels[i].name] = sensor.channels[i].name;
+                 // Ignore unselected
+                 if (pick_sensors[sensor.id].indexOf(sensor.channels[i].id) >= 0) { 
+                    plotData[sensor.id]['keys']['value'].push(sensor.channels[i].name);
+                    plotData[sensor.id]['names'][sensor.channels[i].name] = sensor.channels[i].name;
+                }
             }
             
             var settings = {
@@ -141,6 +146,9 @@
             });
         }
 
+        var pick_sensors = {{ request.session.pick_selected|safe }};
+        console.log(pick_sensors);
+
         // Run
         var main = function() {
 
@@ -148,18 +156,28 @@
             var e = moment();
 
             getSensors(function (sensor) {
+
+                // Ignore unselected
+                if (!(sensor.id in pick_sensors)) { return; }
+
                 // If the sensor has not been seen before
                 if (!sensorListItemExists(sensor)) createSensorListItem(sensor); 
                 if (!sensorPlotExists(sensor)) createSensorPlot(sensor); 
                 //For each of the sensors channels
                 $.each( sensor.channels, function( j, channel ) {
-                    if (!channelListItemExists(sensor, channel)) createChannelListItem(sensor, channel);
-                    // Get latest
-                    getLastReading(sensor, channel, function(reading) {
-                        console.log(reading);
-                        updateChannelListItem(sensor, channel, reading);
-                        
-                    })
+
+                    // Ignore unselected
+               
+                    if (pick_sensors[sensor.id].indexOf(channel.id) >= 0) { 
+
+                        if (!channelListItemExists(sensor, channel)) createChannelListItem(sensor, channel);
+                        // Get latest
+                        getLastReading(sensor, channel, function(reading) {
+                            console.log(reading);
+                            updateChannelListItem(sensor, channel, reading);
+                        });
+                    
+                    }
                 });
                 // Get readings
                 getReadings(sensor, s, e, function(readings) {

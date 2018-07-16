@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 import pandas as pd
 from datetime import time
 from dateutil import tz
@@ -24,10 +24,19 @@ class CalendarView(TemplateView):
     
     def get(self, request):
 
+        if "pick_selected" not in request.session:
+            request.session['pick_redirect'] = "calendar"
+            request.session['pick_channels'] = True
+            request.session['pick_multiple'] = False
+            return redirect('picker')
+
         interval_mins = 15
-        mac = request.GET.get('mac','sensor202')
-        sensor = Sensor.objects.get(mac=mac)
-        channel = sensor.channels.get(name="volume") 
+        
+        sid = list(request.session['pick_selected'].keys())[0]
+        cid = list(request.session['pick_selected'][sid])[0]
+
+        sensor = Sensor.objects.get(id=sid)
+        channel = sensor.channels.get(id=cid) 
 
         df = pd.DataFrame(list(SensorReading.objects.filter(sensor=sensor, channel=channel).values('timestamp', 'value')))
         # Make the timestamp the index
@@ -56,7 +65,7 @@ class CalendarView(TemplateView):
         mapper = LinearColorMapper(palette=colors, low=25, high=110)
 
         TOOLS = "hover,save,pan,box_zoom,reset,wheel_zoom"
-        p = figure(title="Sensor Data",
+        p = figure(title="Sensor Data: {} {}".format(sensor.mac, channel.name),
                 x_range=intvls, y_range=list(reversed(dates)),
                 x_axis_location="above", 
                 tools=TOOLS, 

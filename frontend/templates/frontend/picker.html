@@ -1,0 +1,76 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block script %}{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+
+{% block content %}
+<div class="container">
+<form action="{{ request.path }}" method="POST">
+    {% csrf_token %}
+    <ul id="data-list" class="list-group"></ul>
+    <button class="mt-4 btn btn-primary">Choose</button>
+</form>
+</div>
+{% endblock %}
+
+
+{% block endscript %}
+<script>
+    
+        var sensorListItemExists = function (sensor) { 
+            return $( "#list-"+sensor.id ).length;
+        };
+
+        var createSensorListItem = function(sensor) {
+            var chlist = $("<ul>").addClass('pl-0');
+            $('<li>')
+                .prop('id', 'list-'+sensor.id)
+                .addClass('list-group-item')
+                {% if not request.session.pick_channels %}
+                .html('<label><input type="{{ request.session.pick_multiple|yesno:"checkbox,radio, " }}" name="sensors" value="'+sensor.id+'" /> <strong>'+sensor.name+'</strong></label>')
+                {% else %}
+                .html('<strong>'+sensor.name+'</strong>')
+                {% endif %}
+                    .append(chlist)
+                .appendTo( "#data-list" );
+
+        };
+
+        var getSensorListItem = function(sensor) {
+            return $("#list-"+sensor.id);
+        }
+
+        var channelListItemExists = function (sensor, channel) {
+            return $( "#list-"+sensor.id + " .channel_"+channel.id).length;
+        };
+
+        var createChannelListItem = function(sensor, channel) {
+            $( "<li>")
+                .addClass('channel_'+channel.id)
+                .addClass('row')
+                .append('<label><input type="{{ request.session.pick_multiple|yesno:"checkbox,radio, " }}" name="channels" value="' +sensor.id+ '_' +channel.id+ '" /> <strong>' +channel.name+ '</div>')
+                .appendTo(getSensorListItem(sensor).find('ul'));                
+        }
+
+        var getChannelListItem = function(sensor, channel) {
+            return $("#list-"+sensor.id + " .channel_"+channel.id);
+        }
+
+        
+
+        getSensors(function (sensor) {
+            // If the sensor has not been seen before
+            if (!sensorListItemExists(sensor)) createSensorListItem(sensor); 
+            //For each of the sensors channels
+            {% if request.session.pick_channels %}
+            $.each( sensor.channels, function( j, channel ) {
+                if (!channelListItemExists(sensor, channel)) createChannelListItem(sensor, channel);
+            });
+            {% endif %}
+        });
+
+    </script>
+{% endblock %}
