@@ -219,7 +219,7 @@
                             cutoff_last_reading = ts;
                             return;
                         } else {
-                            // vol = Math.max(0, Math.min(100, 100 * ( (vol-app.min_db) / (app.max_db-app.min_db) ) ));
+                            vol = Math.max(0, Math.min(100, 100 * ( (vol-app.min_db) / (app.max_db-app.min_db) ) ));
                             sig = 100 - Math.max(0, Math.min(100, 100 * ( (Math.abs(sig) - app.best_sig) / (app.worst_sig-app.best_sig) ) ));
                             setMeters(vol, sig, "black");
                           
