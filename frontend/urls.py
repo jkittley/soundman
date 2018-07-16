@@ -6,6 +6,7 @@ urlpatterns = [
     url('picker/$', views.picker, name='picker'),
 
     url('plot/vu/$', views.vumeters, name='vumeters'),
+    url('plot/manual/refresh/$', views.manual_refresh, name='manual_refresh'),
     url('plot/time/$', views.time, name='time'),
     url('plot/timeseries/$', views.timeseries, name='timeseries'),
     url('plot/calendar/$', views.CalendarView.as_view(), name='calendar'),
