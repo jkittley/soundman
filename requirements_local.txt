@@ -8,3 +8,5 @@ django-toolbelt==0.0.1
 numpy==1.14.3
 bokeh==0.12.16
 pandas==0.23.0
+django-debug-toolbar==1.9.1
+arrow==0.12.1
