@@ -56,8 +56,8 @@
         var reading_expected_every_seconds = 5;
         var cutoff_age = 10; // After this many seconds assume data loss and set bas to 0
 
-        var hide_signal = false;
-        var hide_volume = false;
+        var hide_signal = {{ hide_signal|yesno:"true,false" }};
+        var hide_volume = {{ hide_volume|yesno:"true,false" }};
 
         // var sensor_choices = [];
 

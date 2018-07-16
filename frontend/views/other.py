@@ -96,9 +96,21 @@ def vumeters(request):
     if "pick_selected" not in request.session:
         request.session['pick_redirect'] = "vumeters"
         request.session['pick_channels'] = True
-        request.session['pick_multiple'] = False
+        request.session['pick_multiple'] = True
         return redirect('picker')
-    return render(request, "frontend/vumeters.html")
+
+    hide_volume = True
+    hide_signal = True
+    for sid, cids in request.session['pick_selected'].items():
+        sensor = Sensor.objects.get(id=int(sid))
+        for cid in cids:
+            channel = sensor.channels.get(id=int(cid))
+            if channel.name.lower() == "volume":
+                hide_volume = False
+            if channel.name.lower() == "rssi":
+                hide_signal = False
+
+    return render(request, "frontend/vumeters.html", dict(hide_signal=hide_signal, hide_volume=hide_volume))
 
 class DataForm(forms.Form):
     start  = forms.DateTimeField(required=True, initial=datetime.now())
