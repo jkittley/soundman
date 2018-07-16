@@ -178,14 +178,14 @@
             //    sensor_choices.push(sensor.mac);
 
                if(sensor.id === sid) {
-                console.log(sensor);
+                // console.log(sensor);
                 $('#node_name').html(sensor.mac);
 
                 // Get readings
                 var s = moment.utc().subtract(reading_expected_every_seconds * 10, 's'); // Get readings
                 var e = moment.utc();
                 
-                console.log("Search start", s.format('YYYY-MM-DD HH:mm:ss'), "| end", e.format('YYYY-MM-DD HH:mm:ss'));
+                // console.log("Search start", s.format('YYYY-MM-DD HH:mm:ss'), "| end", e.format('YYYY-MM-DD HH:mm:ss'));
 
                 getReadings(sensor, s, e, function(readings, error) {
                     
@@ -202,15 +202,15 @@
                         console.log(reading);
 
                         var vol = reading.volume;
-                        var sig = reading.rssi;
+                        var sig = reading.RSSI;
                         var ts = moment.utc(reading.ts);
               
 
                         // Is reading old?
                         var diff = moment.utc().diff(ts, 'seconds');
                         if (diff > cutoff_age) {
-                            console.log("reading too old", ts.format('HH:mm:ss'), " [ now: ", moment.utc().format('HH:mm:ss'), ']' );
-                            console.log("diff ",diff," | cutoff_age ", cutoff_age);
+                            // console.log("reading too old", ts.format('HH:mm:ss'), " [ now: ", moment.utc().format('HH:mm:ss'), ']' );
+                            // console.log("diff ",diff," | cutoff_age ", cutoff_age);
                             setMeters(0, 0);
 
                             
