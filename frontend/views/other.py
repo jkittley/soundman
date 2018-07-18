@@ -113,13 +113,22 @@ def vumeters(request):
     return render(request, "frontend/vumeters.html", dict(hide_signal=hide_signal, hide_volume=hide_volume))
 
 
-def manual_refresh(request):
+def num_refresh(request):
     if "pick_selected" not in request.session:
-        request.session['pick_redirect'] = "manual_refresh"
+        request.session['pick_redirect'] = "num_refresh"
+        request.session['pick_channels'] = False
+        request.session['pick_multiple'] = False
+        return redirect('picker')
+    return render(request, "frontend/numbers_refresh.html")
+
+def vu_refresh(request):
+    if "pick_selected" not in request.session:
+        request.session['pick_redirect'] = "vu_refresh"
         request.session['pick_channels'] = False
         request.session['pick_multiple'] = False
         return redirect('picker')
     return render(request, "frontend/vumeters_refresh.html")
+
 
 class DataForm(forms.Form):
     start  = forms.DateTimeField(required=True, initial=datetime.now())

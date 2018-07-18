@@ -2,6 +2,22 @@
 {% load static %}
 
 {% block style %}
+<style>
+    .red {
+        color: red;
+    }
+    #signal-row div, #volume-row div {
+        text-align:center; 
+        display:table;
+    }
+
+    #signal-row h1, #volume-row h1 {
+        display:table-cell; 
+        vertical-align:middle;
+        font-size: 220px;
+    }
+
+</style>
 {% endblock %}
 
 
@@ -16,9 +32,9 @@
         </div>
     </div>
 
-    <div id="signal-row" class="row mb-4 justify-content-center"></div>
+    <div id="signal-row" class="row mb-4 justify-content-left align-middle"></div>
             
-    <div id="volume-row" class="row mb-4 justify-content-center"></div>
+    <div id="volume-row" class="row mb-4 justify-content-left align-middle"></div>
 
     <div id="waitingForData" class="row m-4 p-4 justify-content-center text-center">
             <h1><i class="fas fa-sync fa-spin"></i> Waiting for Sensor</h1>
@@ -84,12 +100,9 @@
 
         var initPlot = function() {
             $('#signal-row').html('<div class="col-1 strength-bar"><img id="signalbar-min" src="' + signalBarMin + '"></div>');
-            for (var i = 0; i < app.num_signal_bars; i++) $('#signal-row').append('<div class="col-1 strength-bar"><img id="signal-bar-'+i+'" src="' + signalBar0 + '"></div>');
-            $('#signal-row').append('<div class="col-1 strength-bar"><img id="signalbar-max" src="' + signalBarMax + '"></div>');
-
+            $('#signal-row').append('<div class="col-2"><h1 class="display-1 align-middle"></h1></div>');
             $('#volume-row').html('<div class="col-1 strength-bar"><img src="' + volumeBarMin + '"></div>');
-            for (var i = 0; i < app.num_volume_bars; i++) $('#volume-row').append('<div class="col-1 strength-bar"><img id="volume-bar-'+i+'" src="' + volumeBar0 + '"></div>');
-            $('#volume-row').append('<div class="col-1 strength-bar"><img src="' + volumeBarMax + '"></div>');
+            $('#volume-row').append('<div class="col-2"><h1 class="display-1 align-middle"></h1></div>');
         }
         
         // Takes a percentage
@@ -103,27 +116,16 @@
             console.log('volumeBars', volumeBars);
 
             if (signalBars == 0) {
-                var z = signalBarLost;
                 $('#signalbar-min').attr('src', signalLost);
-                $('#signalbar-max').attr('src', signalLost);
-                for (var i = 0; i < app.num_signal_bars; i++) {
-                    $('#signal-bar-'+i).attr('src', z);  
-                }                
+                $('#signal-row h1').addClass("red");
             } else {
                 $('#signalbar-min').attr('src', signalBarMin);
-                $('#signalbar-max').attr('src', signalBarMax);
-
-                for (var i = 0; i < app.num_signal_bars; i++) {
-                    var z = (i < signalBars ? signalBar1: signalBar0);
-                    $('#signal-bar-'+i).attr('src', z);
-                }
+                $('#signal-row h1').removeClass("red");
             }           
-
-            for (var i = 0; i < app.num_volume_bars; i++) {
-                var z = (i < volumeBars ? volumeBar1 : volumeBar0);
-                $('#volume-bar-'+i).attr('src', z);
-            }
-
+            
+            $('#signal-row h1').html(signalBars + '%');
+            $('#volume-row h1').html(volumeBars + '%');
+            
             showMeters();
         }
         
